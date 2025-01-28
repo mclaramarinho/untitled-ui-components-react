@@ -24,7 +24,7 @@ This PR < fixes/adds/updates/removes > < specific feature/component/bug >. The m
 - [ ] [Include any relevant details about removed or deprecated functionality]
 
 ## Checklist
-<!-- Ensure the PR meets these requirements (N/A when not applicable) -->
+<!-- Ensure the PR meets these requirements -->
 - [ ] Changes adhere to coding standards and best practices.
 - [ ] Unit tests have been added/updated where applicable.
 - [ ] Documentation (README, Storybook, etc.) has been updated.
