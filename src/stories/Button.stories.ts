@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import {Button} from '@/components/Button/index.tsx';
+import {TemplateSBButton as Button} from '@/components/TemplateSBButton';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

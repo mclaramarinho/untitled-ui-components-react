@@ -1,5 +1,5 @@
 import React  from 'react'
 
-export function Button(){
+export function TemplateSBButton(){
     return <button>aaaaaa</button>
 }
