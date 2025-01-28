@@ -1,8 +1,23 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
+  "compilerOptions": {
+    "target": "ESNext", // Match Vite's modern output
+    "module": "ESNext",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true, // Enable strict type-checking
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["lib/*"]
+    },
+    "composite": true,
+    "declarationMap": false,
+    "allowImportingTsExtensions": true,
+    "emitDeclarationOnly": true // Only emit declarations, not JS files
+  },
   "include": ["src", "lib"],
+  "exclude": ["node_modules", "dist"]
 }

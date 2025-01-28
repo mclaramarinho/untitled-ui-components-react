@@ -1,28 +1,23 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
     "module": "ESNext",
-    "skipLibCheck": true,
-    "composite": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "emitDeclarationOnly": true,
-    // "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    // "noUncheckedSideEffectImports": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "Node",
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Helpful for debugging
+    "emitDeclarationOnly": true, // Only emit types during build
+    "outDir": "dist", // Output folder
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./lib/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["lib"],
+  "exclude": ["node_modules", "dist", "src", "storybook-static"]
 }
