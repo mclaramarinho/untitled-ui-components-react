@@ -1,8 +1,17 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true, // Ensure declaration files are generated
+    "declarationDir": "dist/types", // Output directory for types
+    "module": "esnext", // Or "commonjs" based on your preferred module system
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+        "@/*": ["./lib/*"]
+    }
+  },
   "include": ["lib"],
+  "exclude": ["node_modules"]
 }

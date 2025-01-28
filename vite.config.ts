@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-// import { resolve } from 'path';
 import { extname, relative, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { glob } from 'glob';
 import dts from 'vite-plugin-dts';
 import { libInjectCss} from 'vite-plugin-lib-inject-css';
+import path from 'path';
 
 
 // https://vite.dev/config/
@@ -15,6 +15,11 @@ export default defineConfig({
     libInjectCss(),
     dts({ include: ['lib'] })
   ],
+  resolve:{
+    alias: {
+      '@': path.resolve(__dirname, 'lib'), // Resolves @ to ./lib
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
