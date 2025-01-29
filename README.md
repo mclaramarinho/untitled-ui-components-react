@@ -1,5 +1,5 @@
 # STORYBOOK
-´´´npm run storybook´´´
+```npm run storybook```
 
 # Create new component
-´´´npm run create-component <component-name>´´´
+```npm run create-component <component-name>```
