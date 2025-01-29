@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c --bundleConfigAsCjs",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "create-component": "bash ./.scripts/newComponent.sh"
   },
   "author": "Clara M. <marinho.claramb@gmail.com>",
   "license": "MIT",
