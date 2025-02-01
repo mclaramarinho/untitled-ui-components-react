@@ -1,0 +1,37 @@
+@use "sass:map";
+@use "variables/colors";
+@use "variables/gradient";
+
+
+@function get-color-1($color, $grad_type){
+    $color1_weight: map.get(gradient.$gradient_color_map, $grad_type, 'color1');
+    @return var(--primary-#{$color}-#{$color1_weight});
+}
+@function get-color-2($color, $grad_type){
+    $color2_weight: map.get(gradient.$gradient_color_map, $grad_type, 'color2');
+    @return var(--primary-#{$color}-#{$color2_weight});
+}
+@function get-degree($grad_type){
+    $degree: map.get(gradient.$gradient_color_map, $grad_type, 'deg');
+    @return $degree;
+}
+
+
+@mixin gradient($color1, $color2, $degree){
+    background: linear-gradient($degree, $color1, $color2);
+}
+
+
+@each $color in colors.$color_names{
+    @each $number in gradient.$gradient_types{
+        @if(map.has-key(gradient.$gradient_color_map, $number)){
+            .gradient-#{$color}-#{$number}{
+                @include gradient(
+                    get-color-1($color, $number), 
+                    get-color-2($color, $number), 
+                    get-degree($number)
+                );
+            }
+        }
+    }
+}

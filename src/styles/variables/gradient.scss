@@ -1,0 +1,41 @@
+
+$gradient_color_map: (
+    // 600 - 500 - 90deg
+    1: (
+        color1: 600,
+        color2: 500,
+        deg: 90deg
+    ),
+    // 700 - 600 - 45deg
+    2: (
+        color1: 700,
+        color2: 600,
+        deg: 45deg
+    ),
+    // 800 - 600 - 45deg
+    3: (
+        color1: 800,
+        color2: 600,
+        deg: 45deg
+    ),
+    // 800 - 600 - 90deg
+    4: (
+        color1: 800,
+        color2: 600,
+        deg: 90deg
+    ),
+    // 800 - 700 - 26.5deg
+    5: (
+        color1: 800,
+        color2: 700,
+        deg: 26.5deg
+    ),
+    // 900 - 600 - 45deg
+    6: (
+        color1: 900,
+        color2: 600,
+        deg: 45deg
+    )
+);
+
+$gradient_types: 1, 2, 3, 4, 5, 6;
