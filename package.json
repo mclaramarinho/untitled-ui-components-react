@@ -4,7 +4,6 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c --bundleConfigAsCjs",
@@ -12,16 +11,13 @@
     "build-storybook": "storybook build",
     "create-component": "bash ./.scripts/newComponent.sh"
   },
-
   "author": "Clara M. <marinho.claramb@gmail.com>",
   "license": "MIT",
   "description": "",
-
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
     "@rollup/plugin-commonjs": "^28.0.2",
@@ -47,8 +43,7 @@
     "tslib": "^2.8.1",
     "typescript": "^5.7.3"
   },
-
   "dependencies": {
-    "feather-icons": "^4.29.2"
+    "react-feather": "^2.0.10"
   }
 }
