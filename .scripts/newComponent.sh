@@ -46,10 +46,8 @@ export default $COMPONENT_NAME;
 EOL
 
 
-cat > "$COMPONENT_DIR/$COMPONENT_NAME.module.scss" <<EOL
+cat > "$COMPONENT_DIR/$COMPONENT_NAME.module.scss" << EOL
 @use '../index.scss';
-
-
 EOL
 
 
