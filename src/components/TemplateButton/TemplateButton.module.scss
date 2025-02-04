@@ -1,6 +1,9 @@
+@use '../index.scss';
+
 .button{
-    background-color: red;
+    // background-color: red;
+    @extend .gradient-brand-1;
+    @extend .display-2xl-bold;
     padding: 16px;
     color: white;
-    font-weight: 900;
 }
