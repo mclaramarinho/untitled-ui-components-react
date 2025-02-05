@@ -1,27 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
+import { useImageProperties } from '../../hooks/useImageProperties';
 
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
-  const BASE_URL = "../../assets/icons/countries/";
+  const BASE_URL = "../assets/icons/countries/";
 
+  const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetPath: props.country, width: props.size?.width, height: props.size?.height})
 
-  const [iconPath, setIconPath] = useState<string>();
-  const [width, setWidth] = useState<number>();
-  const [height, setHeight] = useState<number>();
-
-
-  useEffect(() => {
-    setWidth(props.size?.width);
-    setHeight(props.size?.height);
-  }, [props.size?.width, props.size?.height]);
-  
-  useEffect(() => {
-    setIconPath(BASE_URL + props.country);
-  }, [props.country]);
-
-  
-  return <UntitledSvgRenderer imgPath={iconPath} width={width} height={height} altText={props.altText ?? `Icon ${props.country}`} />
+  return <UntitledSvgRenderer img={src} width={width} height={height} altText={props.altText ?? `Icon ${props.country}`} />
 };
 
 export default UntitledCountryIcon;

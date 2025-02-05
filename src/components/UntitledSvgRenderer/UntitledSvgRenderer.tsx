@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import UntitledSvgRendererProps from './UntitledSvgRenderer.types';
 import { ModuleExport } from 'storybook/internal/types';
+import { ImageNotFoundException, ImagePathOrSourceMustBeSetException } from '../../exceptions/images';
+import Logger, { LogLevel } from '../../utils/Logger';
 
 const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps> = (props) => {
   const [img, setImg] = useState<ModuleExport>();
 
+  const importImage = () => {
+    import(props.imgPath!)
+      .then(mod => { 
+        if(!mod) throw new ImageNotFoundException("UntitledSvgRenderer", props.imgPath);
+
+        setImg(mod.default);
+      })
+      .catch((err: ImageNotFoundException) => {
+        err.log(LogLevel.ERROR);
+      })
+        .catch((ex: any) =>{
+          Logger.log(LogLevel.ERROR, ex.toString());
+        })
+  };
+
   useEffect(() => {
-    console.debug(props.img, props.imgPath);
-    if(props.img){
-      setImg(props.img);
-    }else if(props.imgPath){
-      import(props.imgPath)
-      .then(mod => setImg(mod.default))
-      .catch(() => {
-        console.warn("UntitledSvgRenderer - ERROR - Image path not found");
-      });
-    }else{
-      console.warn("UntitledSvgRenderer - ERROR - Property img or imgPath must be set");
-    }
+    if(props.img) setImg(props.img);
+    
+    else if(props.imgPath) importImage();
+    
+    else { new ImagePathOrSourceMustBeSetException("UntitledSvgRenderer").log(LogLevel.WARN); }
   }, [props.img, props.imgPath]);
 
   return <img src={img}
