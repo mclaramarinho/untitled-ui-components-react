@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
-import { ModuleExport } from 'storybook/internal/types';
+import UntitledSvgRenderer from '../UntitledSvgRenderer';
 
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
-  const [icon, setIcon] = useState<ModuleExport>();
+  const BASE_URL = "../../assets/icons/countries/";
+
+
+  const [iconPath, setIconPath] = useState<string>();
+  const [width, setWidth] = useState<number>();
+  const [height, setHeight] = useState<number>();
+
 
   useEffect(() => {
-    import(`../../assets/icons/countries/${props.country}`)
-      .then(m => setIcon(m.default));
-  }, []);
+    setWidth(props.size?.width);
+    setHeight(props.size?.height);
+  }, [props.size?.width, props.size?.height]);
+  
+  useEffect(() => {
+    setIconPath(BASE_URL + props.country);
+  }, [props.country]);
 
-  return <img src={icon} width={props.width} height={props.height} alt={props.altText ?? `Icon ${props.country}`} />
+  
+  return <UntitledSvgRenderer imgPath={iconPath} width={width} height={height} altText={props.altText ?? `Icon ${props.country}`} />
 };
 
 export default UntitledCountryIcon;

@@ -7,9 +7,9 @@ export default {
   component: UntitledCountryIcon,
 } as Meta;
 
-// const Template: StoryFn = (args:UntitledCountryIconProps) => <UntitledCountryIcon country={args.country} height={args.height} width={args.width} />;
 const Template: StoryFn = (args) => <UntitledCountryIcon {...args as UntitledCountryIconProps} />;
 
-export const Default = Template.bind({} as UntitledCountryIconProps);
-Default.args = {height: 200, width: 200, country: eCountryIconAssetByAbbreviation.BR, altText: "Icone do brasil"} as UntitledCountryIconProps;
- 
+console.log(eCountryIconAssetByAbbreviation.BR)
+const DefaultProps : UntitledCountryIconProps = {size:{height: 200, width:200}, country: eCountryIconAssetByAbbreviation.BR, altText:"icone do brasil"} ;
+export const Default = Template.bind(DefaultProps);
+Default.args = DefaultProps;
