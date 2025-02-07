@@ -4,9 +4,17 @@ import { ModuleExport } from 'storybook/internal/types';
 import { ImageNotFoundException, ImagePathOrSourceMustBeSetException } from '../../exceptions/images';
 import Logger, { LogLevel } from '../../utils/Logger';
 
+
+/**
+ * Renders SVG files from path url or from image module
+ * @param props 
+ */
 const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps> = (props) => {
   const [img, setImg] = useState<ModuleExport>();
 
+  /**
+   * Imports image if only path url is passed as prop.
+   */
   const importImage = () => {
     import(props.imgPath!)
       .then(mod => { 

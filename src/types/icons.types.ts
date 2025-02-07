@@ -4,7 +4,10 @@ import ImageBaseType, { ImageSizeType } from "./image.types";
  * @extends ImageBaseType
 */
 export default interface IconBaseType extends ImageBaseType{
-    /** Optional attribute
+    /** Optional attribute 
+     * 
+     * If undefined, the icon will have its regular size
+     * 
      * @type ImageSizeType
      */
     size?: ImageSizeType;
