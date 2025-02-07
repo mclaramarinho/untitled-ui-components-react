@@ -1,9 +1,20 @@
 import IconBaseType from "../../types/icons.types";
 
+/**
+ * Prop interface for UntitleCountryIcon component
+ * @extends IconBaseType
+ */
 export interface UntitledCountryIconProps extends IconBaseType{
+    /**
+     * @borrows eCountryIconAssetByAbbreviation as country
+     */
     country: eCountryIconAssetByAbbreviation;
 }
 
+/**
+ * Enum to reference asset file name by country abbreviation
+ * @enum
+ */
 export enum eCountryIconAssetByAbbreviation{
     AD = "AD.svg",
     AE = "AE.svg",

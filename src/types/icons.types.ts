@@ -1,9 +1,17 @@
 import ImageBaseType, { ImageSizeType } from "./image.types";
 
+/** @description Base type for all Icon components 
+ * @extends ImageBaseType
+*/
 export default interface IconBaseType extends ImageBaseType{
+    /** Optional attribute
+     * @type ImageSizeType
+     */
     size?: ImageSizeType;
 }
 
+
+// TODO - check if needed
 export class FixedIconSize {
     static get XS () : ImageSizeType {
         return { width: 12, height: 12 };

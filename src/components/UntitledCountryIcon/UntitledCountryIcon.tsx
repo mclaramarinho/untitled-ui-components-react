@@ -3,6 +3,10 @@ import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 import { useImageProperties } from '../../hooks/useImageProperties';
 
+/**
+ * Country icon component
+ * @param props 
+ */
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
   const BASE_URL = "../assets/icons/countries/";
 
