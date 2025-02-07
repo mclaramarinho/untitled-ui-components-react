@@ -1,4 +1,14 @@
+/**
+ * Logger class to log messages to the console
+ * @class
+ */
 export default class Logger {
+    /**
+     * Method to log based on loglevel passed as param
+     * @static
+     * @param level 
+     * @param message 
+     */
     public static log(level: LogLevel, message: string){
         switch(level){
             case LogLevel.INFO:
@@ -10,18 +20,49 @@ export default class Logger {
             case LogLevel.ERROR:
                 Logger.error(message);
                 break;
-    
         }
     }
-    private static warn = (message: string) => console.warn('[WARN] - ' + new Date().toISOString() + message);
 
-    private static error = (message: string) => console.error('[ERROR] - ' + new Date().toISOString() + message);
+    /**
+     * Logs a medium priority message to the console
+     * @static
+     * @param message 
+     * @returns string
+     */
+    public static warn = (message: string) => console.warn('[WARN] - ' + new Date().toISOString() + message);
 
-    private static info = (message: string) => console.log('[INFO] - ' + new Date().toISOString() + message);
+    /**
+     * Logs a high priority message to the console
+     * @static
+     * @param message 
+     * @returns string
+     */
+    public static error = (message: string) => console.error('[ERROR] - ' + new Date().toISOString() + message);
+
+    /**
+     * Logs a low priority message to the console
+     * @static
+     * @param message 
+     * @returns string
+     */
+    public static info = (message: string) => console.log('[INFO] - ' + new Date().toISOString() + message);
 }
 
+/**
+ * Log level enum
+ * @enum
+ */
 export enum LogLevel{
+    /**
+     * Low priority log
+     */
     INFO,
+    /**
+     * Medium priority log
+     */
     WARN,
+    /**
+     * High priority log
+     */
     ERROR
 }

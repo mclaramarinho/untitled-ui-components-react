@@ -44,7 +44,7 @@ export class BaseException extends Logger {
     /**
      * Logs message to the console.
      */
-    public log(level: LogLevel){
+    public log(level: LogLevel = LogLevel.ERROR){
         Logger.log(level, this.message);
     }
 }

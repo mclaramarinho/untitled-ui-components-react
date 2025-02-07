@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ModuleExport } from "storybook/internal/types";
 import { ImageNotFoundException } from "../exceptions/images";
-import Logger, { LogLevel } from "../utils/Logger";
+import Logger from "../utils/Logger";
 
 export interface UseImageSourceType {
     assetBaseUrl?: string;
@@ -36,15 +36,15 @@ export const useImageSource = (params: UseImageSourceType) => {
                     throw new ImageNotFoundException("UntitledSvgRenderer", srcPath);
                 
                 else
-                    Logger.log(LogLevel.ERROR, (err as TypeError).message)
+                    Logger.error((err as TypeError).message)
                 
             }else if(err instanceof ImageNotFoundException){
-                err.log(LogLevel.ERROR);
+                err.log();
             }
         })
         .catch((err: any) => { 
             if(err instanceof ImageNotFoundException)
-                err.log(LogLevel.ERROR);
+                err.log();
         })
     }, [srcPath]);
 

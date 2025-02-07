@@ -15,10 +15,10 @@ const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps> = (props) => {
         setImg(mod.default);
       })
       .catch((err: ImageNotFoundException) => {
-        err.log(LogLevel.ERROR);
+        err.log();
       })
         .catch((ex: any) =>{
-          Logger.log(LogLevel.ERROR, ex.toString());
+          Logger.error(ex.toString());
         })
   };
 
