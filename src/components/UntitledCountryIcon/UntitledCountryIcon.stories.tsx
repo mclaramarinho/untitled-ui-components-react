@@ -9,7 +9,6 @@ export default {
 
 const Template: StoryFn = (args) => <UntitledCountryIcon {...args as UntitledCountryIconProps} />;
 
-console.log(eCountryIconAssetByAbbreviation.BR)
 const DefaultProps : UntitledCountryIconProps = {size:{height: 200, width:200}, country: eCountryIconAssetByAbbreviation.BR, altText:"icone do brasil"} ;
 export const Default = Template.bind(DefaultProps);
 Default.args = DefaultProps;

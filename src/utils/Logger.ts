@@ -6,8 +6,6 @@ export default class Logger {
     /**
      * Method to log based on loglevel passed as param
      * @static
-     * @param level 
-     * @param message 
      */
     public static log(level: LogLevel, message: string){
         switch(level){
@@ -26,7 +24,6 @@ export default class Logger {
     /**
      * Logs a medium priority message to the console
      * @static
-     * @param message 
      * @returns string
      */
     public static warn = (message: string) => console.warn('[WARN] - ' + new Date().toISOString() + message);
@@ -34,7 +31,6 @@ export default class Logger {
     /**
      * Logs a high priority message to the console
      * @static
-     * @param message 
      * @returns string
      */
     public static error = (message: string) => console.error('[ERROR] - ' + new Date().toISOString() + message);
@@ -42,7 +38,6 @@ export default class Logger {
     /**
      * Logs a low priority message to the console
      * @static
-     * @param message 
      * @returns string
      */
     public static info = (message: string) => console.log('[INFO] - ' + new Date().toISOString() + message);

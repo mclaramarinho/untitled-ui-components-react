@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 import { useImageProperties } from '../../hooks/useImageProperties';
