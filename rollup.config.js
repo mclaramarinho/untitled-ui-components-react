@@ -5,6 +5,8 @@ import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import svgr from "@svgr/rollup";
+import scss from "rollup-plugin-scss";
+import postcss from "rollup-plugin-postcss";
 
 const packageJson = require('./package.json');
 
@@ -30,7 +32,14 @@ export default [
             typescript({
                 tsconfig: "./tsconfig.json"
             }),
-            svgr()
+            terser(),
+            svgr(),
+            scss({ outputStyle: "compressed", sass: require("sass") }),
+            postcss({
+                modules: true,
+                extract: true,
+                use: [ "sass" ]
+            })
         ],
         external: ["react", "react-dom"]
     },

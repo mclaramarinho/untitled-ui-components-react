@@ -4,6 +4,20 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/mclaramarinho/untitled-ui-components-react",
+    "directory": "dist/"
+  },
+  "author": "Clara M. <marinho.claramb@gmail.com>",
+  "keywords": [
+    "component",
+    "library",
+    "components",
+    "react",
+    "reactjs",
+    "typescript"
+  ],
+  "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c --bundleConfigAsCjs",
@@ -11,8 +25,6 @@
     "build-storybook": "storybook build",
     "create-component": "bash ./.scripts/newComponent.sh"
   },
-  "author": "Clara M. <marinho.claramb@gmail.com>",
-  "license": "MIT",
   "description": "",
   "peerDependencies": {
     "react": "^19.0.0",
@@ -38,6 +50,8 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-scss": "^4.0.1",
+    "sass": "^1.84.0",
     "sass-embedded": "^1.83.4",
     "storybook": "^8.5.2",
     "style-loader": "^4.0.0",
