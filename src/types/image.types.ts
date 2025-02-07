@@ -11,7 +11,7 @@ export default interface ImageBaseType{
     altText: string;
 
     /**
-     * [OPTIONAL] parameter to set image alt attribute
+     * [OPTIONAL] parameter to set image ariaHidden attribute
      * @type boolean | undefined
      */
     ariaHidden?: boolean;

@@ -15,7 +15,7 @@ export interface UntitledCountryIconProps extends IconBaseType{
  * Enum to reference asset file name by country abbreviation
  * @enum
  */
-export enum eCountryIconAssetByAbbreviation{
+enum eCountryIconAssetByAbbreviation{
     AD = "AD.svg",
     AE = "AE.svg",
     AF = "AF.svg",
@@ -248,3 +248,5 @@ export enum eCountryIconAssetByAbbreviation{
     ZM = "ZM.svg",
     ZW = "ZW.svg",
 }
+
+export { eCountryIconAssetByAbbreviation as eCountryAbbr }

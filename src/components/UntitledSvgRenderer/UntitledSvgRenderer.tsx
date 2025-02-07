@@ -8,6 +8,12 @@ import Logger, { LogLevel } from '../../utils/Logger';
 /**
  * Renders SVG files from path url or from image module
  * @param props 
+ * @prop width
+ * @prop height
+ * @prop altText
+ * @prop ariaHidden
+ * @prop imgPath
+ * @prop img
  */
 const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps> = (props) => {
   const [img, setImg] = useState<ModuleExport>();
