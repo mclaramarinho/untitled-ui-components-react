@@ -13,11 +13,11 @@ export default class Logger {
     
         }
     }
-    private static warn = (message: string) => console.warn(message);
+    private static warn = (message: string) => console.warn('[WARN] - ' + new Date().toISOString() + message);
 
-    private static error = (message: string) => console.error(message);
+    private static error = (message: string) => console.error('[ERROR] - ' + new Date().toISOString() + message);
 
-    private static info = (message: string) => console.log(message);
+    private static info = (message: string) => console.log('[INFO] - ' + new Date().toISOString() + message);
 }
 
 export enum LogLevel{
