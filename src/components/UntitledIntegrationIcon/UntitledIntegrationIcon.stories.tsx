@@ -1,10 +1,16 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledIntegrationIcon from './UntitledIntegrationIcon';
-import UntitledIntegrationIconProps, { eBrowserNames } from './UntitledIntegrationIcon.types';
+import UntitledIntegrationIconProps, { eBrowserNames, eAllIntegrations } from './UntitledIntegrationIcon.types';
+import { getSelectPropArgType } from '../../stories/helpers/selectProp';
+
+const argTypes = {
+  ...getSelectPropArgType("integration", eAllIntegrations),
+}
 
 export default {
   title: 'Components/UntitledIntegrationIcon',
   component: UntitledIntegrationIcon,
+  argTypes: argTypes
 } as Meta;
 
 const Template: StoryFn<UntitledIntegrationIconProps> = (args) => <UntitledIntegrationIcon {...args} />;
