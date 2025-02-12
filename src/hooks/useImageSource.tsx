@@ -18,12 +18,12 @@ export interface UseImageSourceType {
     /**
      * When assetBaseUrl is undefined, this will be the full path of the image
      * 
-     * When assetBaseUrl is defined, assetPath will be concatenated to it
+     * When assetBaseUrl is defined, assetFileName will be concatenated to it
      * 
      * @type string
      * @example "D://Documents/MyFile.jpeg" OR "MyFile.jpeg"
      */
-    assetPath: string;
+    assetFileName: string;
 
     /**
      * The root url
@@ -40,12 +40,16 @@ export interface UseImageSourceType {
 export const useImageSource = (params: UseImageSourceType) => {
     const [src, setSrc] = useState<ModuleExport>();
     const [srcPath, setSrcPath] = useState<string>();
-
-    useEffect(() => {
+    
+    const update = () => {
         if(!params.imgModule){
-            setSrcPath((params.assetBaseUrl ?? "") + params.assetPath);
+            if(params.assetFileName){
+                setSrcPath((params.assetBaseUrl ?? "") + params.assetFileName);
+            }
         }
-    }, [params.assetPath]);
+    };
+
+    useEffect(() => update(), [params.assetFileName]);
 
     useEffect(() => {
         if(!srcPath) return;
@@ -59,7 +63,7 @@ export const useImageSource = (params: UseImageSourceType) => {
         .catch((err: any) => {
             if(err instanceof TypeError){
                 const msg = (err as TypeError).message.toLowerCase();
-                
+                console.log(msg)
                 if(msg.includes("failed to fetch")) 
                     throw new ImageNotFoundException("UntitledSvgRenderer", srcPath);
                 
@@ -76,5 +80,7 @@ export const useImageSource = (params: UseImageSourceType) => {
         })
     }, [srcPath]);
 
-    return { src, srcPath };
+
+
+    return { src, srcPath, update };
 }

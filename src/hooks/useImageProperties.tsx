@@ -16,12 +16,12 @@ interface useImagePropertiesType {
     /**
      * When assetBaseUrl is undefined, this will be the full path of the image
      * 
-     * When assetBaseUrl is defined, assetPath will be concatenated to it
+     * When assetBaseUrl is defined, assetFileName will be concatenated to it
      * 
      * @type string
      * @example "D://Documents/MyFile.jpeg" OR "MyFile.jpeg"
      */
-    assetPath: string;
+    assetFileName: string;
 
     /**
      * @type number | undefined
@@ -34,17 +34,31 @@ interface useImagePropertiesType {
     height?: number;
 }
 
+/**
+ * Return type for useImageProperties hook
+ * @interface
+ */
+export interface useImagePropertiesReturnType {
+    width: number | undefined;
+    height: number | undefined;
+    src: string;
+    srcPath: string | undefined;
+}
+
 
 /**
  * Sets width, height, src and src path for images
  * @param params
+ * @returns useImagePropertiesReturnType
  */
-export const useImageProperties = (params:useImagePropertiesType) => {
+export const useImageProperties = (params:useImagePropertiesType) : useImagePropertiesReturnType => {
     const [width, setWidth] = useState<number|undefined>();
     const [height, setHeight] = useState<number|undefined>();
 
-    const { src, srcPath } = useImageSource({ ...params });
+    const { src, srcPath, update } = useImageSource({ ...params });
 
+    useEffect(() => update(), [params.assetBaseUrl, params.assetFileName]);
+ 
     useEffect(() => {
         setWidth(params.width);
         setHeight(params.height);

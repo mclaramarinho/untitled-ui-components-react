@@ -3,21 +3,16 @@ import UntitledCountryIcon from './UntitledCountryIcon';
 import { eCountryAbbr, UntitledCountryIconProps } from './UntitledCountryIcon.types';
 import { AnnotatedStoryFn } from 'storybook/internal/types';
 import { FixedIconSize } from '../../types/icons.types';
+import { getSelectPropArgType } from '../../stories/helpers/selectProp';
 
+const argTypes = {
+  ...getSelectPropArgType("country", eCountryAbbr),
+}
 
 export default {
   title: 'Components/UntitledCountryIcon',
   component: UntitledCountryIcon,
-  argTypes: {
-    country: {
-      options: Object.values(eCountryAbbr),
-      mapping: Object.values(eCountryAbbr),
-      control: {
-        type: 'select',
-        labels: Object.keys(eCountryAbbr),
-      },
-    }
-  }
+  argTypes: argTypes
 } as Meta;
 
 
