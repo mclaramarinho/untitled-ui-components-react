@@ -171,8 +171,8 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
   
   
   // COMPONENT --------------------------------------------------------------------------------------------------------------------
-  return <div className={`untitled-icon-${variant} ${styles.untitledIcon}`} style={wrapperStyle}>
-    <div style={innerWrapperStyle}>
+  return <div className={`untitled-icon-${variant} ${styles.untitledIcon}`} style={props.styles?.outerWrapper ? {...props.styles?.outerWrapper} : {...wrapperStyle}}>
+    <div style={props.styles?.innerWrapper ? {...props.styles?.innerWrapper} : {...innerWrapperStyle}}>
       {IconComponentObject ? <IconComponentObject size={size} color={iconColor} /> : ""}
     </div>
   </div>
