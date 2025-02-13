@@ -17,7 +17,7 @@ export default interface UntitledIconProps {
     iconColor?: UntitledColors;
 }
 
-const iconNamesFromFeatherIcons = Object.keys(icons);
+export const iconNamesFromFeatherIcons = Object.keys(icons);
 
 export type UntitledIconType = (typeof iconNamesFromFeatherIcons)[number];
 

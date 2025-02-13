@@ -11,10 +11,10 @@ const DEFAULT_ICON_SIZE: number = 24;
 const DEFAULT_WRAPPER_SIZE = DEFAULT_ICON_SIZE * DEFAULT_WRAPPER_SCALE;
 const DEFAULT_INNER_WRAPPER_SIZE = DEFAULT_ICON_SIZE * DEFAULT_INNER_WRAPPER_SCALE;
 const DEFAULT_COLOR_WRAPPER: UntitledColors = "brand";
+const ICON_DEFAULT_COLOR = "#000000";
+const LIGHT_ICON_DEFAULT_COLOR = "#000000";
+const DARK_ICON_DEFAULT_COLOR = "#FFFFFF";
 
-
-// TODO - allow setting custom icon color
-// TODO - allow setting untitled ui colors
 /**
  * @param props.icon - Please refer to {@link https://feathericons.com/ | Feather Icons} to see all available icons
  * @param props.size - Single number
@@ -32,13 +32,15 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
   const [secondaryBgColor, setSecondaryBgColor] = useState<string|undefined>();
   const [shade, setShade] = useState<number>(100);
   const [secondaryShade, setSecondaryShade] = useState<number>(100);
-
+  const [iconColor, setIconColor] = useState<string>(ICON_DEFAULT_COLOR);
+  const [isSquareVariant, setIsSquareVariant] = useState<boolean>(false);
 
   // STYLES --------------------------------------------------------------------------------------------------------------------
   let wrapperStyle = {
     width: wrapperSize,
     height: wrapperSize,
     background: bgColor,
+    borderRadius: isSquareVariant ? wrapperSize*0.2 : wrapperSize
   } as CSSProperties;
 
   let innerWrapperStyle = {
@@ -50,13 +52,17 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
 
   // METHODS --------------------------------------------------------------------------------------------------------------------
   const setColorFromDefaultColors = (color: UntitledColors) => {
-    const info = UntitledColorsList.AllColors[color];
-    const colorShade = info.shades[shade??100].hex;
-    const secondaryColorShade = info.shades[secondaryShade??100].hex;
+    const colorShade = getColorFromDefaultColors(color, (shade??100));
+    const secondaryColorShade = getColorFromDefaultColors(color, (secondaryShade??100));
     setBgColor(colorShade);
     setSecondaryBgColor(secondaryColorShade);
   }
 
+  const getColorFromDefaultColors = (color:UntitledColors, shade:number) =>{
+    const info = UntitledColorsList.AllColors[color];
+    const colorHEX = info.shades[shade].hex;
+    return colorHEX;
+  }
   const setColorHexCodes = () => {
     setSecondaryBgColor(props.customSecondaryBgColor);
 
@@ -118,7 +124,22 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
     setSize(props.size);
     setWrapperSize(!props.size ? DEFAULT_WRAPPER_SIZE : (props.size*DEFAULT_WRAPPER_SCALE));
     setInnerWrapperSize(!props.size ? DEFAULT_INNER_WRAPPER_SIZE : (props.size*DEFAULT_INNER_WRAPPER_SCALE));
-  }
+  };
+
+  const decideIconColorValue = () => {
+    if(props.customIconColor){
+      setIconColor(props.customIconColor);
+    }else if(props.iconColor){
+      const color = getColorFromDefaultColors(props.iconColor, 500);
+      setIconColor(color);
+    }else{
+      if(props.variant === "double-color-dark" || props.variant === "square-fill-dark" || props.variant === "square-fill"){
+        setIconColor(DARK_ICON_DEFAULT_COLOR);
+      }else{
+        setIconColor(LIGHT_ICON_DEFAULT_COLOR);
+      }
+    }
+  };
 
 
   // EFFECTS --------------------------------------------------------------------------------------------------------------------
@@ -134,7 +155,17 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
   useEffect(() => {
     setVariant(props.variant ?? DEFAULT_ICON_VARIANT);
     setShadeValues(props.variant ?? DEFAULT_ICON_VARIANT);
+
+    if(!props.variant) setIsSquareVariant(false);
+
+    else setIsSquareVariant(props.variant.includes("square"));
+
+    decideIconColorValue();
   }, [props.variant])
+  
+  useEffect(() => {
+    decideIconColorValue();
+  }, [props.iconColor, props.customIconColor])
 
   useEffect(() => {setColorHexCodes()}, [props.bgColor, props.customBgColor, variant, props.variant])
   
@@ -142,7 +173,7 @@ const UntitledIcon: React.FC<UntitledIconProps> = (props) => {
   // COMPONENT --------------------------------------------------------------------------------------------------------------------
   return <div className={`untitled-icon-${variant} ${styles.untitledIcon}`} style={wrapperStyle}>
     <div style={innerWrapperStyle}>
-      {IconComponentObject ? <IconComponentObject size={size} /> : ""}
+      {IconComponentObject ? <IconComponentObject size={size} color={iconColor} /> : ""}
     </div>
   </div>
 };
