@@ -21,9 +21,7 @@ const UntitledSocialIcon: React.FC<UntitledSocialIconProps> = (props) => {
     setAssetBaseUrl(`${BASE_URL}/${props.variant ?? 'default'}/`)
   }, [props.variant])
 
-  if(src){
-    return <UntitledSvgRenderer altText={props.altText} width={width} height={height} img={src} ariaHidden={props.ariaHidden} />
-  }
+  return src ? <UntitledSvgRenderer altText={props.altText} width={width} height={height} img={src} ariaHidden={props.ariaHidden} /> : "";
 };
 
 export default UntitledSocialIcon;

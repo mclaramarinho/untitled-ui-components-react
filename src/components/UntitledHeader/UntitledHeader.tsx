@@ -1,17 +1,18 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import UntitledHeaderProps, { HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels } from './UntitledHeader.types';
 import { UntitledFontWeights } from '../../types/typography.types';
-import "./UntitledHeader.scss";
+import s from "./UntitledHeader.module.scss";
+import { isUntitledColor, isUntitledColorShades, UntitledColorShades, UntitledColorsList } from '../../types/colors.types';
+
 
 const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
+  // ------------------- STATES ----------------------------------------------------------
   const [headerElement, setHeaderElement] = useState<ReactElement>();  
 
+
+  // ------------------- CREATE HTML ELEMENT ----------------------------------------------------------
   const createHeadingElement = (): ReactElement => {
-    // TODO - class name not applying scss styles
-    let properties = {
-      props: {className: getStylingClass()} as React.HTMLAttributes<any>,
-      children: [props.text] as React.ReactNode[]
-    }
+    let properties = getBaseProperties();
 
     if(props.level)
       return createReactElement(props.level, properties);
@@ -19,19 +20,27 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     let headerTagName: UntitledHeaderLevels = 'h3';
 
     if(typeof props.size === "number"){
-      const lvl = getHeaderLevelByTextSize();
-
-      if(lvl) 
-        headerTagName = lvl;
+      headerTagName = getHeaderLevelByTextSize() ?? headerTagName;
     }else if(props.size){
-      const lvl = HeaderLevelsByFontSize[props.size as UntitledHeaderFontSizes];
-      if(lvl)
-        headerTagName = lvl;
+      headerTagName = HeaderLevelsByFontSize[props.size as UntitledHeaderFontSizes] ?? headerTagName;
     }
 
     return createReactElement(headerTagName, properties);
   }
 
+
+  // ------------------- AUXILIARY FUNCTIONS ----------------------------------------------------------
+  const getBaseProperties = () => {
+    return {
+      props: {
+        className: getStylingClass(),
+        style: props.styles ?? {
+          color: getColorHEX(),
+        } as CSSProperties
+      } as React.HTMLAttributes<any>,
+      children: [props.text] as React.ReactNode[]
+    }
+  }
   const getHeaderLevelByTextSize = () : UntitledHeaderLevels | undefined => {
     if(typeof props.size !== "number") return;
     const sizeType = getSizeClassificationByCustomTextSize();
@@ -78,15 +87,8 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
   }
 
   const getStylingClass = () => {
-    const BASE_CLASS = ".display-";
+    const BASE_CLASS = "display-";
     let className = BASE_CLASS;
-    
-    if(props.weight){
-      className+=props.weight+"-";
-    }else{
-      className+="regular-" as UntitledFontWeights;
-    }
-
     if(typeof props.size === "number"){
       const sizeType = getSizeClassificationByCustomTextSize();
       if(!sizeType){
@@ -99,14 +101,42 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     }else{
       className+="md";
     }
+    
+    if(props.weight){
+      className+="-"+props.weight;
+    }else{
+      className+="-regular" as UntitledFontWeights;
+    }
 
-    return className
+    return s[className]
   }
 
+  const getColorHEX = () => {
+    if(!props.color){
+      return UntitledColorsList.AllColors["brand"].shades["500"].hex;
+    }
+
+    if(isUntitledColor(props.color)){
+      return UntitledColorsList.AllColors[props.color].shades["500"].hex;
+    }
+
+    if(isUntitledColorShades(props.color)){
+      const colorTyped = props.color as UntitledColorShades;
+      const [color, shade] = colorTyped.split("-");
+      return UntitledColorsList.AllColors[color].shades[shade].hex; 
+    }
+
+    return props.color;
+  }
+
+
+  // ------------------- HOOKS ----------------------------------------------------------
   useEffect(() => {
     setHeaderElement(createHeadingElement());
   }, [props])
 
+
+  // ------------------- COMPONENT ----------------------------------------------------------
   return headerElement ? headerElement : "";
 };
 

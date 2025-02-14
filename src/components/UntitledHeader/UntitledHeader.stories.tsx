@@ -1,7 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledHeader from './UntitledHeader';
 import UntitledHeaderProps from './UntitledHeader.types';
-import { UntitledColorsList, UntitledColors } from '../../types/colors.types';
 
 export default {
   title: 'Components/UntitledHeader',
