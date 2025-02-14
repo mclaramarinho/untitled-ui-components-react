@@ -34,11 +34,12 @@ export default [
             }),
             terser(),
             svgr(),
-            scss({ outputStyle: "compressed", sass: require("sass") }),
+            // scss({ outputStyle: "compressed", sass: require("sass"), sourceMap: true,  }),
             postcss({
                 modules: true,
                 extract: true,
-                use: [ "sass" ]
+                use: [ "sass" ],
+                sourceMap: true,
             })
         ],
         external: ["react", "react-dom"]
