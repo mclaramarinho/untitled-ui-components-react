@@ -1,6 +1,23 @@
 *
 
 
-!dist/*
+!dist/cjs/*
+!dist/cjs/assets/*
+!dist/cjs/index.css
+!dist/cjs/index.css.map
+!dist/cjs/index.js
+!dist/cjs/index.js.map
+
+!dist/esm/*
+!dist/esm/assets/
+!dist/esm/index.css
+!dist/esm/index.css.map
+!dist/esm/index.js
+!dist/esm/index.js.map
+
+!dist/types.d.ts
+
+
+
 !README.md
 !LICENSE
