@@ -1,17 +1,30 @@
 *
 
 
-!dist/cjs/*
-!dist/cjs/assets/*
-!dist/cjs/index.css
-!dist/cjs/index.css.map
-!dist/cjs/index.js
-!dist/cjs/index.js.map
+!dist/assets/*
+!dist/assets/default/*
+!dist/assets/default/*
+!dist/assets/gray-default/*
+!dist/assets/gray-hover/*
+!dist/assets/icons/*
+!dist/assets/integration/*
+!dist/assets/payment_methods/*
+!dist/assets/social/*
+!dist/assets/white-default/*
+!dist/assets/white-hover/*
 
 !dist/esm/*
-!dist/esm/assets/
+!dist/esm/components/*
+!dist/esm/exceptions/*
+!dist/esm/hooks/*
+!dist/esm/stories/*
+!dist/esm/types/*
+!dist/esm/utils/*
 !dist/esm/index.css
 !dist/esm/index.css.map
+!dist/index.d.ts
+
+
 !dist/esm/index.js
 !dist/esm/index.js.map
 
