@@ -2,7 +2,7 @@ import { CSSProperties } from "react";
 import { UntitledColors, UntitledColorShades } from "../../types/colors.types";
 import { UntitledFontWeights } from "../../types/typography.types";
 
-export default interface UntitledHeaderProps {
+export interface UntitledHeaderProps {
     /**
      * The text content of the header.  
      * Accepts a `string` or `number`.

@@ -1,5 +1,5 @@
 import React from 'react';
-import UntitledIntegrationIconProps from './UntitledIntegrationIcon.types';
+import { UntitledIntegrationIconProps } from './UntitledIntegrationIcon.types';
 import { useImageProperties } from '../../hooks/useImageProperties';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 

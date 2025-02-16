@@ -5,8 +5,8 @@ import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import svgr from "@svgr/rollup";
-import scss from "rollup-plugin-scss";
 import postcss from "rollup-plugin-postcss";
+import copy from "rollup-plugin-copy";
 
 const packageJson = require('./package.json');
 
@@ -14,11 +14,11 @@ export default [
     {
         input: "src/index.ts",
         output: [
-            {
-                file: packageJson.main,
-                format: "cjs",
-                sourcemap: true
-            },
+            // {
+            //     file: packageJson.main,
+            //     format: "cjs",
+            //     sourcemap: true
+            // },
             {
                 file: packageJson.module,
                 format: "esm",
@@ -30,23 +30,29 @@ export default [
             resolve(),
             commonjs(),
             typescript({
-                tsconfig: "./tsconfig.json"
+                tsconfig: "./tsconfig.json",
+                declaration: true,
+                declarationDir: "dist/esm/"
             }),
             terser(),
+            copy({
+                targets: [
+                  { src: "src/assets/**/*", dest: "dist/assets" }, // Copy assets
+                ],
+              }),
             svgr(),
-            // scss({ outputStyle: "compressed", sass: require("sass"), sourceMap: true,  }),
             postcss({
                 modules: true,
                 extract: true,
                 use: [ "sass" ],
                 sourceMap: true,
-            })
+            }),
         ],
         external: ["react", "react-dom"]
     },
     {
         input: ["src/index.ts"],
-        output: [{ file: "dist/types.d.ts", format: "es" }],
+        output: [{ file: packageJson.types, format: "es" }],
         plugins: [dts.default()],
     }
 ]

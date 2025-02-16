@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UntitledSocialIconProps from './UntitledSocialIcon.types';
+import { UntitledSocialIconProps } from './UntitledSocialIcon.types';
 import { useImageProperties } from '../../hooks/useImageProperties';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 

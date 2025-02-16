@@ -1,6 +1,6 @@
-import IconBaseType from "../../types/icons.types";
+import { IconBaseType } from "../../types/icons.types";
 
-export default interface UntitledSocialIconProps extends IconBaseType {
+export interface UntitledSocialIconProps extends IconBaseType {
     social: eSocialNetworksNames,
     variant?: eSocialNetworkIconVariants
 }

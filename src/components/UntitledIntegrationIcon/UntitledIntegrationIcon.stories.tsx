@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledIntegrationIcon from './UntitledIntegrationIcon';
-import UntitledIntegrationIconProps, { eBrowserNames, eAllIntegrations } from './UntitledIntegrationIcon.types';
+import { UntitledIntegrationIconProps, eBrowserNames, eAllIntegrations } from './UntitledIntegrationIcon.types';
 import { getSelectPropArgType } from '../../stories/helpers/selectProp';
 
 const argTypes = {

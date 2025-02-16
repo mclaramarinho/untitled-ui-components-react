@@ -1,5 +1,5 @@
 import React from 'react';
-import UntitledPaymentMethodIconProps from './UntitledPaymentMethodIcon.types';
+import { UntitledPaymentMethodIconProps } from './UntitledPaymentMethodIcon.types';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 import { useImageProperties } from '../../hooks/useImageProperties';
 

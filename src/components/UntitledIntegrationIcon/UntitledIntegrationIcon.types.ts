@@ -1,6 +1,6 @@
-import IconBaseType from "../../types/icons.types";
+import { IconBaseType } from "../../types/icons.types";
 
-export default interface UntitledIntegrationIconProps extends IconBaseType {
+export interface UntitledIntegrationIconProps extends IconBaseType {
     integration: eBrowserNames | eCodingPlatforms | eDesignPlatforms | eFinance | eMessengers | eMusic | eOSNames | eOtherIntegrations | eProductivity | eSocialIntegrations | eVideoIntegrations;
 }
 

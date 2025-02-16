@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledIcon from './UntitledIcon';
-import UntitledIconProps, {iconNamesFromFeatherIcons} from './UntitledIcon.types';
+import { UntitledIconProps, iconNamesFromFeatherIcons} from './UntitledIcon.types';
 
 export default {
   title: 'Components/UntitledIcon',

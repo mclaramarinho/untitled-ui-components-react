@@ -2,7 +2,7 @@ import * as icons from "react-feather";
 import { UntitledColors } from "../../types/colors.types";
 import { CSSProperties } from "react";
 
-export default interface UntitledIconProps {
+export interface UntitledIconProps {
     icon: UntitledIconType;
     
     size?: number;

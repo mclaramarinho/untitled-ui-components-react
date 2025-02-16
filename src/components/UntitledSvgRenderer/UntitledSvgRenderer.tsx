@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UntitledSvgRendererProps from './UntitledSvgRenderer.types';
+import { UntitledSvgRendererProps } from './UntitledSvgRenderer.types';
 import { ModuleExport } from 'storybook/internal/types';
 import { ImageNotFoundException, ImagePathOrSourceMustBeSetException } from '../../exceptions/images';
 import Logger, { LogLevel } from '../../utils/Logger';

@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-import { ModuleExport } from 'storybook/internal/types';
 
 /**
  * Base type for any image-containing component
@@ -41,6 +40,9 @@ type ImageSizeType = {
      */
     height: number;
 };
+type ModuleExport<T = any> = {
+    default: T;
+};
 
 /** @description Base type for all Icon components
  * @extends ImageBaseType
@@ -53,6 +55,43 @@ interface IconBaseType extends ImageBaseType {
      * @type ImageSizeType
      */
     size?: ImageSizeType;
+}
+/**
+ * Used to set the icon to default sizes. Is passed as prop to components.
+ * @class
+ * @example size={FixedIconSize.SM}
+ */
+declare class FixedIconSize {
+    /**
+     * Extra-small size (12x12)
+     * @static
+     */
+    static get XS(): ImageSizeType;
+    /**
+    * Small size (16x16)
+    * @static
+    */
+    static get SM(): ImageSizeType;
+    /**
+    * Medium size (20x20)
+    * @static
+    */
+    static get MD(): ImageSizeType;
+    /**
+    * Large size (24x24)
+    * @static
+    */
+    static get LG(): ImageSizeType;
+    /**
+    * Extra-large size (32x32)
+    * @static
+    */
+    static get XL(): ImageSizeType;
+    /**
+    * Double-extra-large size (48x48)
+    * @static
+    */
+    static get XXL(): ImageSizeType;
 }
 
 /**
@@ -310,7 +349,51 @@ declare enum eCountryIconAssetByAbbreviation {
 declare const UntitledCountryIcon: React.FC<UntitledCountryIconProps>;
 
 type UntitledColors = 'gray' | 'brand' | 'error' | 'warning' | 'success' | 'blue-gray' | 'blue-light' | 'blue' | 'indigo' | 'purple' | 'pink' | 'rose' | 'orange';
+declare function isUntitledColor(value: unknown): value is UntitledColors;
 type UntitledColorShades = 'gray-50' | 'gray-100' | 'gray-200' | 'gray-300' | 'gray-400' | 'gray-500' | 'gray-600' | 'gray-700' | 'gray-800' | 'gray-900' | 'brand-50' | 'brand-100' | 'brand-200' | 'brand-300' | 'brand-400' | 'brand-500' | 'brand-600' | 'brand-700' | 'brand-800' | 'brand-900' | 'error-50' | 'error-100' | 'error-200' | 'error-300' | 'error-400' | 'error-500' | 'error-600' | 'error-700' | 'error-800' | 'error-900' | 'warning-50' | 'warning-100' | 'warning-200' | 'warning-300' | 'warning-400' | 'warning-500' | 'warning-600' | 'warning-700' | 'warning-800' | 'warning-900' | 'success-50' | 'success-100' | 'success-200' | 'success-300' | 'success-400' | 'success-500' | 'success-600' | 'success-700' | 'success-800' | 'success-900' | 'blue-gray-50' | 'blue-gray-100' | 'blue-gray-200' | 'blue-gray-300' | 'blue-gray-400' | 'blue-gray-500' | 'blue-gray-600' | 'blue-gray-700' | 'blue-gray-800' | 'blue-gray-900' | 'blue-light-50' | 'blue-light-100' | 'blue-light-200' | 'blue-light-300' | 'blue-light-400' | 'blue-light-500' | 'blue-light-600' | 'blue-light-700' | 'blue-light-800' | 'blue-light-900' | 'blue-50' | 'blue-100' | 'blue-200' | 'blue-300' | 'blue-400' | 'blue-500' | 'blue-600' | 'blue-700' | 'blue-800' | 'blue-900' | 'indigo-50' | 'indigo-100' | 'indigo-200' | 'indigo-300' | 'indigo-400' | 'indigo-500' | 'indigo-600' | 'indigo-700' | 'indigo-800' | 'indigo-900' | 'purple-50' | 'purple-100' | 'purple-200' | 'purple-300' | 'purple-400' | 'purple-500' | 'purple-600' | 'purple-700' | 'purple-800' | 'purple-900' | 'pink-50' | 'pink-100' | 'pink-200' | 'pink-300' | 'pink-400' | 'pink-500' | 'pink-600' | 'pink-700' | 'pink-800' | 'pink-900' | 'rose-50' | 'rose-100' | 'rose-200' | 'rose-300' | 'rose-400' | 'rose-500' | 'rose-600' | 'rose-700' | 'rose-800' | 'rose-900' | 'orange-50' | 'orange-100' | 'orange-200' | 'orange-300' | 'orange-400' | 'orange-500' | 'orange-600' | 'orange-700' | 'orange-800' | 'orange-900';
+declare function isUntitledColorShades(value: unknown): value is UntitledColorShades;
+interface UntitledColorsMap {
+    [index: string]: UntitledColorInfo;
+}
+interface UntitledColorInfo {
+    name: string;
+    cssVariablePrefix: string;
+    shades: UntitledColorShadesList;
+}
+interface UntitledColorShadesList {
+    [index: number]: UntitledColorShadeInfo;
+    [index: string]: UntitledColorShadeInfo;
+    25: UntitledColorShadeInfo;
+    50: UntitledColorShadeInfo;
+    100: UntitledColorShadeInfo;
+    200: UntitledColorShadeInfo;
+    300: UntitledColorShadeInfo;
+    400: UntitledColorShadeInfo;
+    500: UntitledColorShadeInfo;
+    600: UntitledColorShadeInfo;
+    700: UntitledColorShadeInfo;
+    800: UntitledColorShadeInfo;
+    900: UntitledColorShadeInfo;
+}
+interface UntitledColorShadeInfo {
+    hex: string;
+}
+declare class UntitledColorsList {
+    static get AllColors(): UntitledColorsMap;
+    static get PrimaryGray(): UntitledColorInfo;
+    static get PrimaryBrand(): UntitledColorInfo;
+    static get PrimaryError(): UntitledColorInfo;
+    static get PrimaryWarning(): UntitledColorInfo;
+    static get PrimarySuccess(): UntitledColorInfo;
+    static get SecondaryBlueGray(): UntitledColorInfo;
+    static get SecondaryBlueLight(): UntitledColorInfo;
+    static get SecondaryBlue(): UntitledColorInfo;
+    static get SecondaryIndigo(): UntitledColorInfo;
+    static get SecondaryPurple(): UntitledColorInfo;
+    static get SecondaryPink(): UntitledColorInfo;
+    static get SecondaryRose(): UntitledColorInfo;
+    static get SecondaryOrange(): UntitledColorInfo;
+}
 
 type UntitledFontWeights = 'regular' | 'medium' | 'semibold' | 'bold';
 
@@ -350,6 +433,14 @@ interface UntitledHeaderProps {
 }
 type UntitledHeaderFontSizes = '2XL' | 'XL' | 'LG' | 'MD' | 'SM' | 'XS';
 type UntitledHeaderLevels = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+declare enum HeaderLevelsByFontSize {
+    '2XL' = "h1",
+    'XL' = "h2",
+    'LG' = "h3",
+    'MD' = "h4",
+    'SM' = "h5",
+    'XS' = "h6"
+}
 
 declare const UntitledHeader: React.FC<UntitledHeaderProps>;
 
@@ -633,6 +724,237 @@ declare enum eVideoIntegrations {
     VIMEO = "vimeo",
     YOUTUBE = "youtube"
 }
+declare enum eAllIntegrations {
+    CHROME = "chrome",
+    EDGE = "edge",
+    FIREFOX = "firefox",
+    IE = "ie",
+    OPERA = "opera",
+    SAFARI = "safari",
+    TOR = "tor",
+    UC = "uc",
+    YANDEX = "yandex",
+    ADOBE_DREAMWEAVER = "adobe_dreamweaver",
+    ANGULAR = "angular",
+    ATOM = "atom",
+    BITBUCKET = "bitbucket",
+    C_SHARP = "c_sharp",
+    C_PLUS_PLUS = "c_plus_plus",
+    CODEPEN = "codepen",
+    CSS_3 = "css_3",
+    DOCKER = "docker",
+    DRUPAL = "drupal",
+    GIT = "git",
+    GO = "go",
+    HTML_5 = "html_5",
+    JAVA = "java",
+    JB_APPCODE = "jb_appcode",
+    JB_CLION = "jb_clion",
+    JB_DATAGRIP = "jb_datagrip",
+    JB_DOTCOVER = "jb_dotcover",
+    JB_DOTMEMORY = "jb_dotmemory",
+    JB_DOTPEEK = "jb_dotpeek",
+    JB_DOTTRACE = "jb_dottrace",
+    JB_GOLAND = "jb_goland",
+    JB_HUB = "jb_hub",
+    JB_INTELLIJ = "jb_intellij",
+    JB_KOTLIN = "jb_kotlin",
+    JB_PHPSTORM = "jb_phpstorm",
+    JB_PYCHARM = "jb_pycharm",
+    JB_PYCHARM_EDU = "jb_pycharm_edu",
+    JB_RESHARPER = "jb_resharper",
+    JB_RESHARPER_C_PLUS_PLUS = "jb_resharper_c_plus_plus",
+    JB_RIDER = "jb_rider",
+    JB_RUBYMINE = "jb_rubymine",
+    JB_TEAMCITY = "jb_teamcity",
+    JB_TOOLBOX_APP = "jb_toolbox_app",
+    JB_UPSOURCE = "jb_upsource",
+    JB_WEBSTORM = "jb_webstorm",
+    JB_YOUTRACK = "jb_youtrack",
+    JOOMLA = "joomla",
+    JQUERY = "jquery",
+    JS = "js",
+    NODE_JS = "node_js",
+    NPM = "npm",
+    PHP = "php",
+    PYTHON = "python",
+    R_LANG = "r_lang",
+    REACT = "react",
+    REDUX = "redux",
+    SUBLIME_TEXT = "sublime_text",
+    SWIFT = "swift",
+    VS_CODE = "vs_code",
+    VUE = "vue",
+    WEEBLY = "weebly",
+    WORDPRESS = "wordpress",
+    YII_1 = "yii_1",
+    ADOBE = "adobe",
+    ADOBE_AFTER_EFFECTS = "adobe_after_effects",
+    ADOBE_ILLUSTRATOR = "adobe_illustrator",
+    ADOBE_INDESIGN = "adobe_indesign",
+    ADOBE_LIGHTROOM = "adobe_lightroom",
+    ADOBE_PHOTOSHOP = "adobe_photoshop",
+    ADOBE_XD = "adobe_xd",
+    AUTODESK = "autodesk",
+    BEHANCE = "behance",
+    DRIBBLE = "dribble",
+    FIGMA = "figma",
+    FRAMER = "framer",
+    INVISION = "invision",
+    MARVEL = "marvel",
+    PROCREATE = "procreate",
+    SKETCH = "sketch",
+    ZEPLIN = "zeplin",
+    ALFA_BANK = "alfa_bank",
+    AMERICAN_EXPRESS = "american_express",
+    DIRECT_DEBIT = "direct_debit",
+    JCB = "jcb",
+    MASTERCARD = "mastercard",
+    PAYPAL = "paypal",
+    QIWI = "qiwi",
+    SBERBANK = "sberbank",
+    SHOPIFY = "shopify",
+    STRIPE = "stripe",
+    SWIFT_BANK = "swift_bank",
+    TINKOFF = "tinkoff",
+    VISA = "visa",
+    WEBMONEY = "webmoney",
+    WESTERN_UNION = "western_union",
+    WORLD_PAY = "world_pay",
+    YANDEX_KASSA = "yandex_kassa",
+    DISCORD = "discord",
+    FACETIME = "facetime",
+    FB_MESSENGER = "fb_messenger",
+    GOOGLE_MEET = "google_meet",
+    GOOGLE_HANGOUTS = "google_hangouts",
+    KAKAO_TALK = "kakao_talk",
+    LINE = "line",
+    MESSAGES = "messages",
+    MS_SKYPE = "ms_skype",
+    SLACK = "slack",
+    SPECTRUM = "spectrum",
+    TELEGRAM = "telegram",
+    VIBER = "viber",
+    WECHAT = "wechat",
+    WHATSAPP = "whatsapp",
+    ZOOM = "zoom",
+    APPLE_MUSIC = "apple_music",
+    GOOGLE_PLAY_MUSIC = "google_play_music",
+    GROOVESHARK = "grooveshark",
+    SHAZAM = "shazam",
+    SOUND_CLOUD = "sound_cloud",
+    SPOTIFY = "spotify",
+    YANDEX_MUSIC = "yandex_music",
+    YOUTUBE_MUSIC = "youtube_music",
+    ANDROID = "android",
+    APPLE = "apple",
+    BLACKBERRY = "blackberry",
+    CHROME_OS = "chrome_os",
+    ELEMENTARY = "elementary",
+    FEDORA = "fedora",
+    FREEBSD = "freebsd",
+    GNOME = "gnome",
+    IOS = "ios",
+    LINUX = "linux",
+    LINUX_MINT = "linux_mint",
+    MACOS = "macos",
+    MICROSOFT = "microsoft",
+    UBUNTU = "ubuntu",
+    AIRBNB = "airbnb",
+    AMD = "amd",
+    ANGEL_LIST = "angel_list",
+    APP_STORE = "app_store",
+    BLUETOOTH = "bluetooth",
+    DELL = "dell",
+    ENVATO = "envato",
+    GENERAL_ELECTRIC = "general_electric",
+    GOOGLE = "google",
+    GOOGLE_ADS = "google_ads",
+    GOOGLE_PLAY = "google_play",
+    IBM = "ibm",
+    INTEL = "intel",
+    KICKSTARTER = "kickstarter",
+    MEDIUM = "medium",
+    MS_XBOX = "ms_xbox",
+    PLAYSTATION = "playstation",
+    PRODUCT_HUNT = "product_hunt",
+    STEAM = "steam",
+    STUMBLE_UPON = "stumble_upon",
+    TECH_CRUNCH = "tech_crunch",
+    TRIPADVISOR = "tripadvisor",
+    AMAZON = "amazon",
+    ASANA = "asana",
+    ATLASSIAN = "atlassian",
+    BAMBOO = "bamboo",
+    BASECAMP = "basecamp",
+    CONFLUENCE = "confluence",
+    DROPBOX = "dropbox",
+    EVERNOTE = "evernote",
+    FINDER = "finder",
+    FLOWMAPP = "flowmapp",
+    G_CALENDAR = "g_calendar",
+    GITHUB = "github",
+    GITLAB = "gitlab",
+    GMAIL = "gmail",
+    GOOGLE_DOCS = "google_docs",
+    GOOGLE_MAPS = "google_maps",
+    GOOGLE_DRIVE = "google_drive",
+    GOOGLE_MEET2 = "google_meet2",
+    INTERCOM = "intercom",
+    JIRA = "jira",
+    JIRA_CORE = "jira_core",
+    JIRA_OPS = "jira_ops",
+    JIRA_SERVICE_DESK = "jira_service_desk",
+    KAYAKO = "kayako",
+    LINEAR = "linear",
+    LOOM = "loom",
+    MAILCHIMP = "mailchimp",
+    MS_EXCEL = "ms_excel",
+    MS_ONEDRIVE = "ms_onedrive",
+    MS_OUTLOOK = "ms_outlook",
+    MS_POWERPOINT = "ms_powerpoint",
+    MS_SHAREPOINT = "ms_sharepoint",
+    MS_WORD = "ms_word",
+    MS_YAMMER = "ms_yammer",
+    NOTION = "notion",
+    OPSGENIE = "opsgenie",
+    SOURCETREE = "sourcetree",
+    TEAMS = "teams",
+    THINGS = "things",
+    TREEHOUSE = "treehouse",
+    TRELLO = "trello",
+    WORKFLOWY = "workflowy",
+    ZAPIER = "zapier",
+    ZENDESK = "zendesk",
+    ASKFM = "askfm",
+    BADOO = "badoo",
+    FACEBOOK = "facebook",
+    FOURSQUARE = "foursquare",
+    INSTAGRAM = "instagram",
+    LINKEDIN = "linkedin",
+    OK = "ok",
+    PATREON = "patreon",
+    PINTEREST = "pinterest",
+    QUORA = "quora",
+    QZONE = "qzone",
+    REDDIT = "reddit",
+    SNAPCHAT = "snapchat",
+    STACK_OVERFLOW = "stack_overflow",
+    TIKTOK = "tiktok",
+    TINDER = "tinder",
+    TUMBLR = "tumblr",
+    TWITTER = "twitter",
+    VK = "vk",
+    WEIBO = "weibo",
+    APPEARIN = "appearin",
+    COUB = "coub",
+    FLICKR = "flickr",
+    IGTV = "igtv",
+    NETFLIX = "netflix",
+    TWITCH = "twitch",
+    VIMEO = "vimeo",
+    YOUTUBE = "youtube"
+}
 
 declare const UntitledIntegrationIcon: React.FC<UntitledIntegrationIconProps>;
 
@@ -680,6 +1002,23 @@ declare enum ePaymentMethod {
     WEBMONEY = "Webmoney",
     WECHAT = "WeChat",
     YANDEX = "Yandex"
+}
+declare class UntitledPaymentMethodIconSize {
+    /**
+    * Small size (34x34)
+    * @static
+    */
+    static get SM(): ImageSizeType;
+    /**
+    * Medium size (46x32)
+    * @static
+    */
+    static get MD(): ImageSizeType;
+    /**
+    * Large size (58x40)
+    * @static
+    */
+    static get LG(): ImageSizeType;
 }
 
 declare const UntitledPaymentMethodIcon: React.FC<UntitledPaymentMethodIconProps>;
@@ -750,4 +1089,4 @@ interface UntitledSvgRendererProps extends ImageBaseType {
  */
 declare const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps>;
 
-export { UntitledCountryIcon, UntitledHeader, UntitledIcon, UntitledIntegrationIcon, UntitledPaymentMethodIcon, UntitledSocialIcon, UntitledSvgRenderer };
+export { FixedIconSize, HeaderLevelsByFontSize, type IconBaseType, type ImageBaseType, type ImageSizeType, type ModuleExport, type UntitleIconVariant, type UntitledColorShades, type UntitledColors, UntitledColorsList, UntitledCountryIcon, type UntitledCountryIconProps, type UntitledFontWeights, UntitledHeader, type UntitledHeaderFontSizes, type UntitledHeaderLevels, type UntitledHeaderProps, UntitledIcon, type UntitledIconProps, type UntitledIconStyles, type UntitledIconType, UntitledIntegrationIcon, type UntitledIntegrationIconProps, UntitledPaymentMethodIcon, type UntitledPaymentMethodIconProps, UntitledPaymentMethodIconSize, UntitledSocialIcon, type UntitledSocialIconProps, UntitledSvgRenderer, type UntitledSvgRendererProps, eAllIntegrations, eBrowserNames, eCodingPlatforms, eCountryIconAssetByAbbreviation as eCountryAbbr, eDesignPlatforms, eFinance, eMessengers, eMusic, eOSNames, eOtherIntegrations, ePaymentMethod, eProductivity, eSocialIntegrations, eSocialNetworkIconVariants, eSocialNetworksNames as eSocialNetworks, eVideoIntegrations, iconNamesFromFeatherIcons, isUntitledColor, isUntitledColorShades };

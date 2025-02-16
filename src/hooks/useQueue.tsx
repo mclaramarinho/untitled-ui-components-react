@@ -1,10 +1,10 @@
 // TODO - check if this is really necessary
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export type useQueueFunctionType = () => void;
 
-export const useQueue = (p0: (() => () => void)[]) => {
+export const useQueue = () => {
 
     const [queue, setQueue] = useState<useQueueFunctionType[]>([]);
   

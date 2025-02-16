@@ -1,4 +1,4 @@
-import IconBaseType from "../../types/icons.types";
+import { IconBaseType } from "../../types/icons.types";
 
 /**
  * Prop interface for UntitleCountryIcon component
@@ -15,7 +15,7 @@ export interface UntitledCountryIconProps extends IconBaseType{
  * Enum to reference asset file name by country abbreviation
  * @enum
  */
-enum eCountryIconAssetByAbbreviation{
+export enum eCountryIconAssetByAbbreviation{
     AD = "AD.svg",
     AE = "AE.svg",
     AF = "AF.svg",

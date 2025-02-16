@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useImageSource } from "./useImageSource";
+import { ModuleExport } from "../types";
 
 /**
  * Declares the properties passed to useImageProperties hook
@@ -41,7 +42,7 @@ interface useImagePropertiesType {
 export interface useImagePropertiesReturnType {
     width: number | undefined;
     height: number | undefined;
-    src: string;
+    src: ModuleExport | undefined;
     srcPath: string | undefined;
 }
 
@@ -64,5 +65,5 @@ export const useImageProperties = (params:useImagePropertiesType) : useImageProp
         setHeight(params.height);
     }, [params.width, params.height])
 
-    return { width, height, src, srcPath };
+    return { width, height, src,  srcPath };
 }

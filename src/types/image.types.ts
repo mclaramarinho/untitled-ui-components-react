@@ -1,9 +1,7 @@
-import { ModuleExport } from "storybook/internal/types";
-
 /**
  * Base type for any image-containing component
  */
-export default interface ImageBaseType{
+export interface ImageBaseType{
     /**
      * [REQUIRED] parameter to set image alt attribute
      * @type string
@@ -45,3 +43,7 @@ export type ImageSizeType = {
      */
     height: number;
 }
+
+export type ModuleExport<T = any> = {
+    default: T;
+  };

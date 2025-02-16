@@ -1,5 +1,5 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
-import UntitledHeaderProps, { HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels } from './UntitledHeader.types';
+import { UntitledHeaderProps, HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels } from './UntitledHeader.types';
 import { UntitledFontWeights } from '../../types/typography.types';
 import s from "./UntitledHeader.module.scss";
 import { isUntitledColor, isUntitledColorShades, UntitledColorShades, UntitledColorsList } from '../../types/colors.types';

@@ -4,6 +4,7 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+
   "repository": {
     "url": "https://github.com/mclaramarinho/untitled-ui-components-react",
     "directory": "dist/"

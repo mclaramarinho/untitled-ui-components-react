@@ -1,9 +1,9 @@
-import ImageBaseType, { ImageSizeType } from "./image.types";
+import { ImageBaseType, ImageSizeType } from "./image.types";
 
 /** @description Base type for all Icon components 
  * @extends ImageBaseType
 */
-export default interface IconBaseType extends ImageBaseType{
+export interface IconBaseType extends ImageBaseType{
     /** Optional attribute 
      * 
      * If undefined, the icon will have its regular size

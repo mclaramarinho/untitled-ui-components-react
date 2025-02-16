@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledSocialIcon from './UntitledSocialIcon';
-import UntitledSocialIconProps, { eSocialNetworkIconVariants, eSocialNetworks } from './UntitledSocialIcon.types';
+import { UntitledSocialIconProps, eSocialNetworkIconVariants, eSocialNetworks } from './UntitledSocialIcon.types';
 import { getSelectPropArgType } from '../../stories/helpers/selectProp';
 
 

@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledPaymentMethodIcon from './UntitledPaymentMethodIcon';
-import UntitledPaymentMethodIconProps, { ePaymentMethod } from './UntitledPaymentMethodIcon.types';
+import { UntitledPaymentMethodIconProps, ePaymentMethod } from './UntitledPaymentMethodIcon.types';
 import { getSelectPropArgType } from '../../stories/helpers/selectProp';
 
 const args = {argTypes: {

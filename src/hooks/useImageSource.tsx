@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ModuleExport } from "storybook/internal/types";
+import type { ModuleExport } from "../types";
 import { ImageNotFoundException } from "../exceptions/images";
 import Logger from "../utils/Logger";
 
