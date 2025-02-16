@@ -2,16 +2,19 @@
 
 
 !dist/assets/*
+!dist/assets/icons/*
+
+!dist/assets/countries/*
+
 !dist/assets/default/*
-!dist/assets/default/*
+
 !dist/assets/gray-default/*
 !dist/assets/gray-hover/*
-!dist/assets/icons/*
-!dist/assets/integration/*
-!dist/assets/payment_methods/*
-!dist/assets/social/*
 !dist/assets/white-default/*
 !dist/assets/white-hover/*
+!dist/assets/social/*
+!dist/assets/integration/*
+!dist/assets/payment_methods/*
 
 !dist/esm/*
 !dist/esm/components/*
