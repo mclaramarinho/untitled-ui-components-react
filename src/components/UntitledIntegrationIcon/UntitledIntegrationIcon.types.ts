@@ -1,9 +1,260 @@
 import { IconBaseType } from "../../types/icons.types";
 
 export interface UntitledIntegrationIconProps extends IconBaseType {
-    integration: eBrowserNames | eCodingPlatforms | eDesignPlatforms | eFinance | eMessengers | eMusic | eOSNames | eOtherIntegrations | eProductivity | eSocialIntegrations | eVideoIntegrations;
+    integration: AllIntegrations;
 }
 
+export type AllIntegrations =  
+// browsers
+ "chrome" |
+ "edge" |
+ "firefox" |
+ "ie" |
+ "opera" |
+ "safari" |
+ "tor" |
+ "uc" |
+ "yandex" |
+
+// coding
+"adobe_dreamweaver" |
+"angular" |
+"atom" |
+"bitbucket" |
+"c_sharp" |
+"c_plus_plus" |
+"codepen" |
+"css_3" |
+"docker" |
+"drupal" |
+"git" |
+"go" |
+"html_5" |
+"java" |
+"jb_appcode" |
+"jb_clion" |
+"jb_datagrip" |
+"jb_dotcover" |
+"jb_dotmemory" |
+"jb_dotpeek" |
+"jb_dottrace" |
+"jb_goland" |
+"jb_hub" |
+"jb_intellij" |
+"jb_kotlin" |
+"jb_phpstorm" |
+"jb_pycharm" |
+"jb_pycharm_edu" |
+"jb_resharper" |
+"jb_resharper_c_plus_plus" |
+"jb_rider" |
+"jb_rubymine" |
+"jb_teamcity" |
+"jb_toolbox_app" |
+"jb_upsource" |
+"jb_webstorm" |
+"jb_youtrack" |
+"joomla" |
+"jquery" |
+"js" |
+"node_js" |
+"npm" |
+"php" |
+"python" |
+"r_lang" |
+"react" |
+"redux" |
+"sublime_text" |
+"swift" |
+"vs_code" |
+"vue" |
+"weebly" |
+"wordpress" |
+"yii_1" |
+
+// design
+"adobe" |
+"adobe_after_effects" |
+"adobe_illustrator" |
+"adobe_indesign" |
+"adobe_lightroom" |
+"adobe_photoshop" |
+"adobe_xd" |
+"autodesk" |
+"behance" |
+"dribble" |
+"figma" |
+"framer" |
+"invision" |
+"marvel" |
+"procreate" |
+"sketch" |
+"zeplin" |
+
+// finance
+"alfa_bank" |
+"american_express" |
+"direct_debit" |
+"jcb" |
+"mastercard" |
+"paypal" |
+"qiwi" |
+"sberbank" |
+"shopify" |
+"stripe" |
+"swift_bank" |
+"tinkoff" |
+"visa" |
+"webmoney" |
+"western_union" |
+"world_pay" |
+"yandex_kassa" |
+
+// messengers
+"discord" |
+"facetime" |
+"fb_messenger" |
+"google_meet" |
+"google_hangouts" |
+"kakao_talk" |
+"line" |
+"messages" |
+"ms_skype" |
+"slack" |
+"spectrum" |
+"telegram" |
+"viber" |
+"wechat" |
+"whatsapp" |
+"zoom" |
+
+// music
+"apple_music" |
+"google_play_music" |
+"grooveshark" |
+"shazam" |
+"sound_cloud" |
+"spotify" |
+"yandex_music" |
+"youtube_music" |
+
+// os
+"android" |
+"apple" |
+"blackberry" |
+"chrome_os" |
+"elementary" |
+"fedora" |
+"freebsd" |
+"gnome" |
+"ios" |
+"linux" |
+"linux_mint" |
+"macos" |
+"microsoft" |
+"ubuntu" |
+
+// others
+"airbnb" |
+"amd" |
+"angel_list" |
+"app_store" |
+"bluetooth" |
+"dell" |
+"envato" |
+"general_electric" |
+"google" |
+"google_ads" |
+"google_play" |
+"ibm" |
+"intel" |
+"kickstarter" |
+"medium" |
+"ms_xbox" |
+"playstation" |
+"product_hunt" |
+"steam" |
+"stumble_upon" |
+"tech_crunch" |
+"tripadvisor" |
+
+// productivity
+"amazon" |
+"asana" |
+"atlassian" |
+"bamboo" |
+"basecamp" |
+"confluence" |
+"dropbox" |
+"evernote" |
+"finder" |
+"flowmapp" |
+"g_calendar" |
+"github" |
+"gitlab" |
+"gmail" |
+"google_docs" |
+"google_maps" |
+"google_drive" |
+"google_meet2" |
+"intercom" |
+"jira" |
+"jira_core" |
+"jira_ops" |
+"jira_service_desk" |
+"kayako" |
+"linear" |
+"loom" |
+"mailchimp" |
+"ms_excel" |
+"ms_onedrive" |
+"ms_outlook" |
+"ms_powerpoint" |
+"ms_sharepoint" |
+"ms_word" |
+"ms_yammer" |
+"notion" |
+"opsgenie" |
+"sourcetree" |
+"teams" |
+"things" |
+"treehouse" |
+"trello" |
+"workflowy" |
+"zapier" |
+"zendesk" |
+
+// social
+"askfm" |
+"badoo" |
+"facebook" |
+"foursquare" |
+"instagram" |
+"linkedin" |
+"ok" |
+"patreon" |
+"pinterest" |
+"quora" |
+"qzone" |
+"reddit" |
+"snapchat" |
+"stack_overflow" |
+"tiktok" |
+"tinder" |
+"tumblr" |
+"twitter" |
+"vk" |
+"weibo" |
+
+// video
+"appearin" |
+"coub" |
+"flickr" |
+"igtv" |
+"netflix" |
+"twitch" |
+"vimeo" |
+"youtube";
 
 export enum eBrowserNames {
     CHROME = "chrome",

@@ -16,5 +16,5 @@ export default {
 
 const Template: StoryFn<UntitledPaymentMethodIconProps> = (args:UntitledPaymentMethodIconProps) => <UntitledPaymentMethodIcon {...args} />;
 
-export const Default = Template.bind({paymentMethod: ePaymentMethod.VISA} as UntitledPaymentMethodIconProps);
-Default.args = {paymentMethod: ePaymentMethod.VISA} as UntitledPaymentMethodIconProps;
+export const Default = Template.bind({paymentMethod: "Visa"} as UntitledPaymentMethodIconProps);
+Default.args = {paymentMethod: "Visa"} as UntitledPaymentMethodIconProps;

@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
 import UntitledIntegrationIcon from './UntitledIntegrationIcon';
-import { UntitledIntegrationIconProps, eBrowserNames, eAllIntegrations } from './UntitledIntegrationIcon.types';
+import { UntitledIntegrationIconProps, eAllIntegrations } from './UntitledIntegrationIcon.types';
 import { getSelectPropArgType } from '../../stories/helpers/selectProp';
 
 const argTypes = {
@@ -15,5 +15,5 @@ export default {
 
 const Template: StoryFn<UntitledIntegrationIconProps> = (args) => <UntitledIntegrationIcon {...args} />;
 
-export const Default = Template.bind({altText: "", integration: eBrowserNames.CHROME} as UntitledIntegrationIconProps);
-Default.args = {altText: "", integration: eBrowserNames.CHROME} as UntitledIntegrationIconProps;
+export const Default = Template.bind({altText: "", integration: "chrome"} as UntitledIntegrationIconProps);
+Default.args = {altText: "", integration: "chrome"} as UntitledIntegrationIconProps;

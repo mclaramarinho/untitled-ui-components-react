@@ -1,10 +1,33 @@
 import { IconBaseType } from "../../types/icons.types";
 
 export interface UntitledSocialIconProps extends IconBaseType {
-    social: eSocialNetworksNames,
+    social: SocialNetworkOptions,
     variant?: eSocialNetworkIconVariants
 }
-
+export type SocialNetworkOptions = 
+    "angellist" |
+    "apple" |
+    "clubhouse" |
+    "discord" |
+    "dribble" |
+    "facebook" |
+    "figma" |
+    "github" |
+    "google" |
+    "instagram" |
+    "layers" |
+    "linkedin" |
+    "pinterest" |
+    "reddit" |
+    "signal" |
+    "snapchat" |
+    "telegram" |
+    "tiktok" |
+    "tumblr" |
+    "x-twitter" |
+    "x-twitter" |
+    "youtube"
+;
 enum eSocialNetworksNames {
     ANGEL_LIST = "angellist",
     APPLE = "apple",
@@ -29,7 +52,13 @@ enum eSocialNetworksNames {
     TWITTER = "x-twitter",
     YOUTUBE = "youtube"
 }
-
+export type SocialNetworkVariants = 
+    "default" |
+    "gray-default" |
+    "gray-hover" |
+    "white-default" |
+    "white-hover"
+;
 enum eSocialNetworkIconVariants {
     DEFAULT = "default",
     GRAY = "gray-default",

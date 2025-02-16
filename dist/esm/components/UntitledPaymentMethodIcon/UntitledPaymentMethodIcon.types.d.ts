@@ -1,8 +1,9 @@
 import { ImageBaseType, ImageSizeType } from "../../types";
 export interface UntitledPaymentMethodIconProps extends ImageBaseType {
-    paymentMethod: ePaymentMethod;
+    paymentMethod: PaymentMethodOption;
     size?: ImageSizeType;
 }
+export type PaymentMethodOption = "Affirm" | "Alipay" | "Amazon" | "AMEX" | "ApplePay" | "Bancontact" | "Bitcoin" | "BitcoinCash" | "Bitpay" | "Citadele" | "DinersClub" | "Discover" | "Elo" | "Etherium" | "Forbrugsforeningen" | "giropay" | "GooglePay" | "Ideal" | "Interac" | "JCB" | "Klarna" | "Lightcoin" | "Maestro" | "Mastercard" | "Payoneer" | "PayPal" | "Paysafe" | "Qiwi" | "SEPA" | "ShopPay" | "Skrill" | "Sofort" | "Stripe" | "UnionPay" | "Verifone" | "Visa" | "Webmoney" | "WeChat" | "Yandex";
 export declare enum ePaymentMethod {
     AFFIRM = "Affirm",
     ALIPAY = "Alipay",
