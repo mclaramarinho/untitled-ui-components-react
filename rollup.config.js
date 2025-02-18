@@ -7,6 +7,7 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
 import copy from "rollup-plugin-copy";
+import imageFiles from 'rollup-plugin-image-files';
 
 const packageJson = require('./package.json');
 
@@ -24,6 +25,7 @@ export default [
             peerDepsExternal(),
             resolve(),
             commonjs(),
+
             typescript({
                 tsconfig: "./tsconfig.json",
                 declaration: true,
@@ -32,7 +34,14 @@ export default [
             terser(),
             copy({
                 targets: [
-                  { src: "src/assets/**/*", dest: "dist/assets" }, // Copy assets
+                    { src: "src/assets/icons/countries/*", dest: "dist/assets/icons/countries" },
+                    { src: "src/assets/icons/integration/*", dest: "dist/assets/icons/integration" },
+                    { src: "src/assets/icons/payment_methods/*", dest: "dist/assets/icons/payment_methods" },
+                    { src: "src/assets/icons/social/default/*", dest: "dist/assets/icons/social/default" },
+                    { src: "src/assets/icons/social/gray-default/*", dest: "dist/assets/icons/social/gray-default" },
+                    { src: "src/assets/icons/social/gray-hover/*", dest: "dist/assets/icons/social/gray-hover" },
+                    { src: "src/assets/icons/social/white-default/*", dest: "dist/assets/icons/social/white-default" },
+                    { src: "src/assets/icons/social/white-hover/*", dest: "dist/assets/icons/social/white-hover" },
                 ],
               }),
             svgr(),
@@ -46,6 +55,7 @@ export default [
                 use: [ "sass" ],
                 sourceMap: true,
             }),
+            // imageFiles(),
         ],
         external: ["react", "react-dom"]
     },
