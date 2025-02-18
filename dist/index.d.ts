@@ -862,4 +862,93 @@ interface UntitledSvgRendererProps extends ImageBaseType {
  */
 declare const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps>;
 
-export { type AllIntegrations, FixedIconSize, HeaderLevelsByFontSize, type IconBaseType, type ImageBaseType, type ImageSizeType, type ModuleExport, type UntitleIconVariant, type UntitledColorShades, type UntitledColors, UntitledColorsList, UntitledCountryIcon, type UntitledCountryIconProps, type UntitledFontWeights, UntitledHeader, type UntitledHeaderFontSizes, type UntitledHeaderLevels, type UntitledHeaderProps, UntitledIcon, type UntitledIconProps, type UntitledIconStyles, type UntitledIconType, UntitledIntegrationIcon, type UntitledIntegrationIconProps, UntitledPaymentMethodIcon, type UntitledPaymentMethodIconProps, UntitledPaymentMethodIconSize, UntitledSocialIcon, type UntitledSocialIconProps, UntitledSvgRenderer, type UntitledSvgRendererProps, eBrowserNames, eCodingPlatforms, type eCountryAbbr, eCountryIconAssetByAbbreviation, eDesignPlatforms, eFinance, eMessengers, eMusic, eOSNames, eOtherIntegrations, ePaymentMethod, eProductivity, eSocialIntegrations, eSocialNetworkIconVariants, eSocialNetworksNames as eSocialNetworks, eVideoIntegrations, iconNamesFromFeatherIcons, isUntitledColor, isUntitledColorShades };
+/**
+ * Declares the properties passed to useImageProperties hook
+ * @interface
+ */
+interface useImagePropertiesType {
+    /**
+     * The root url
+     * @type string | undefined
+     * @example "D://Documents"
+     */
+    assetBaseUrl?: string;
+    /**
+     * When assetBaseUrl is undefined, this will be the full path of the image
+     *
+     * When assetBaseUrl is defined, assetFileName will be concatenated to it
+     *
+     * @type string
+     * @example "D://Documents/MyFile.jpeg" OR "MyFile.jpeg"
+     */
+    assetFileName: string;
+    /**
+     * @type number | undefined
+     */
+    width?: number;
+    /**
+     * @type number | undefined
+     */
+    height?: number;
+}
+/**
+ * Return type for useImageProperties hook
+ * @interface
+ */
+interface useImagePropertiesReturnType {
+    width: number | undefined;
+    height: number | undefined;
+    src: ModuleExport | undefined;
+    srcPath: string | undefined;
+}
+/**
+ * Sets width, height, src and src path for images
+ * @param params
+ * @returns useImagePropertiesReturnType
+ */
+declare const useImageProperties: (params: useImagePropertiesType) => useImagePropertiesReturnType;
+
+/**
+ * Declares the properties passed to useImageSource hook
+ * @interface
+ */
+interface UseImageSourceType {
+    /**
+     * The root url
+     * @type string | undefined
+     * @example "D://Documents"
+     */
+    assetBaseUrl?: string;
+    /**
+     * When assetBaseUrl is undefined, this will be the full path of the image
+     *
+     * When assetBaseUrl is defined, assetFileName will be concatenated to it
+     *
+     * @type string
+     * @example "D://Documents/MyFile.jpeg" OR "MyFile.jpeg"
+     */
+    assetFileName: string;
+    /**
+     * The root url
+     * @type string | undefined
+     * @example "D://Documents"
+     */
+    imgModule?: ModuleExport;
+}
+/**
+ * Returns src and srcPath for image
+ * @param params
+ */
+declare const useImageSource: (params: UseImageSourceType) => {
+    src: ModuleExport | undefined;
+    srcPath: string | undefined;
+    update: () => void;
+};
+
+type useQueueFunctionType = () => void;
+declare const useQueue: () => {
+    enqueue: (hookFunction: useQueueFunctionType) => void;
+    dequeue: () => void | null;
+};
+
+export { type AllIntegrations, FixedIconSize, HeaderLevelsByFontSize, type IconBaseType, type ImageBaseType, type ImageSizeType, type ModuleExport, type UntitleIconVariant, type UntitledColorShades, type UntitledColors, UntitledColorsList, UntitledCountryIcon, type UntitledCountryIconProps, type UntitledFontWeights, UntitledHeader, type UntitledHeaderFontSizes, type UntitledHeaderLevels, type UntitledHeaderProps, UntitledIcon, type UntitledIconProps, type UntitledIconStyles, type UntitledIconType, UntitledIntegrationIcon, type UntitledIntegrationIconProps, UntitledPaymentMethodIcon, type UntitledPaymentMethodIconProps, UntitledPaymentMethodIconSize, UntitledSocialIcon, type UntitledSocialIconProps, UntitledSvgRenderer, type UntitledSvgRendererProps, type UseImageSourceType, eBrowserNames, eCodingPlatforms, type eCountryAbbr, eCountryIconAssetByAbbreviation, eDesignPlatforms, eFinance, eMessengers, eMusic, eOSNames, eOtherIntegrations, ePaymentMethod, eProductivity, eSocialIntegrations, eSocialNetworkIconVariants, eSocialNetworksNames as eSocialNetworks, eVideoIntegrations, iconNamesFromFeatherIcons, isUntitledColor, isUntitledColorShades, useImageProperties, type useImagePropertiesReturnType, useImageSource, useQueue, type useQueueFunctionType };
