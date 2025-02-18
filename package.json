@@ -1,10 +1,8 @@
 {
   "name": "untitled-ui-reactjs-components",
-  "version": "1.1.17",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "version": "1.1.18",
+  "main": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-
   "repository": {
     "url": "https://github.com/mclaramarinho/untitled-ui-components-react",
     "directory": "dist/"
@@ -34,9 +32,11 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
     "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-dynamic-import-vars": "^2.1.5",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-url": "^8.0.2",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
     "@storybook/addon-onboarding": "^8.5.2",
@@ -47,6 +47,8 @@
     "@svgr/rollup": "^8.1.0",
     "@types/react": "^19.0.8",
     "css-loader": "^7.1.2",
+    "postcss": "^8.5.2",
+    "postcss-preset-env": "^10.1.4",
     "rollup": "^4.32.1",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",

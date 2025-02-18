@@ -15,7 +15,7 @@ export default [
         input: "src/index.ts",
         output: [
             {
-                file: packageJson.module,
+                file: packageJson.main,
                 format: "esm",
                 sourcemap: true
             }
@@ -37,8 +37,12 @@ export default [
               }),
             svgr(),
             postcss({
+                plugins: [
+                    require('postcss-preset-env')(), // Optional: Adds support for modern CSS features
+                  ],
                 modules: true,
                 extract: true,
+                minimize: true,
                 use: [ "sass" ],
                 sourceMap: true,
             }),
