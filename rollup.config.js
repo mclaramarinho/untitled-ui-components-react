@@ -7,7 +7,6 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import svgr from "@svgr/rollup";
 import postcss from "rollup-plugin-postcss";
 import copy from "rollup-plugin-copy";
-import imageFiles from 'rollup-plugin-image-files';
 
 const packageJson = require('./package.json');
 
