@@ -8,13 +8,13 @@
 
 !dist/assets/default/*
 
-!dist/assets/gray-default/*
-!dist/assets/gray-hover/*
-!dist/assets/white-default/*
-!dist/assets/white-hover/*
-!dist/assets/social/*
-!dist/assets/integration/*
-!dist/assets/payment_methods/*
+!dist/assets/icons/gray-default/*
+!dist/assets/icons/gray-hover/*
+!dist/assets/icons/white-default/*
+!dist/assets/icons/white-hover/*
+!dist/assets/icons/social/*
+!dist/assets/icons/integration/*
+!dist/assets/icons/payment_methods/*
 
 !dist/esm/*
 !dist/esm/components/*
