@@ -4,14 +4,14 @@
 !dist/assets/*
 !dist/assets/icons/*
 
-!dist/assets/countries/*
+!dist/assets/icons/countries/*
 
-!dist/assets/default/*
+!dist/assets/icons/social/default/*
+!dist/assets/icons/social/gray-default/*
+!dist/assets/icons/social/gray-hover/*
+!dist/assets/icons/social/white-default/*
+!dist/assets/icons/social/white-hover/*
 
-!dist/assets/icons/gray-default/*
-!dist/assets/icons/gray-hover/*
-!dist/assets/icons/white-default/*
-!dist/assets/icons/white-hover/*
 !dist/assets/icons/social/*
 !dist/assets/icons/integration/*
 !dist/assets/icons/payment_methods/*

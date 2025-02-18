@@ -8,7 +8,7 @@ import { useImageProperties } from '../../hooks/useImageProperties';
  * @param props 
  */
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
-  const BASE_URL = "../assets/icons/countries/";
+  const BASE_URL = "../../assets/icons/countries/";
 
   const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetFileName: props.country + ".svg", width: props.size?.width, height: props.size?.height})
 

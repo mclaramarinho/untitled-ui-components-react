@@ -4,7 +4,7 @@ import { useImageProperties } from '../../hooks/useImageProperties';
 import UntitledSvgRenderer from '../UntitledSvgRenderer';
 
 const UntitledSocialIcon: React.FC<UntitledSocialIconProps> = (props) => {
-  const BASE_URL = `../assets/icons/social`;
+  const BASE_URL = `../../assets/icons/social`;
   
   const [imageName, setImageName] = useState<string>("");
   const [assetBaseUrl, setAssetBaseUrl] = useState<string>(`${BASE_URL}/default/`);

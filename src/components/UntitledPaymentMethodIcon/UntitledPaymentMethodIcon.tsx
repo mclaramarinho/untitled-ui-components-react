@@ -4,7 +4,7 @@ import UntitledSvgRenderer from '../UntitledSvgRenderer';
 import { useImageProperties } from '../../hooks/useImageProperties';
 
 const UntitledPaymentMethodIcon: React.FC<UntitledPaymentMethodIconProps> = (props) => {
-  const BASE_URL = "../assets/icons/payment_methods/";
+  const BASE_URL = "../../assets/icons/payment_methods/";
   
   const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetFileName: getFileNameByEnum(), width: props.size?.width, height: props.size?.height})
   
