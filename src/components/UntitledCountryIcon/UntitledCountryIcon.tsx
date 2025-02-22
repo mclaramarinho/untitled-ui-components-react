@@ -1,18 +1,17 @@
 import React from 'react';
 import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
-import UntitledSvgRenderer from '../UntitledSvgRenderer';
-import { useImageProperties } from '../../hooks/useImageProperties';
+import { icons } from "./assets";
+
 
 /**
  * Country icon component
  * @param props 
  */
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
-  const BASE_URL = "../../assets/icons/countries/";
+  const Icon = icons[props.country] as React.FC<React.SVGProps<SVGSVGElement>>;
+  console.log(Icon);
 
-  const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetFileName: props.country + ".svg", width: props.size?.width, height: props.size?.height})
-
-  return <UntitledSvgRenderer img={src} width={width} height={height} altText={props.altText ?? `Icon ${props.country}`} />
+  return <Icon width={props.size?.width} height={props.size?.height} aria-description={props.altText ?? `Icon ${props.country}`} />
 };
 
 export default UntitledCountryIcon;

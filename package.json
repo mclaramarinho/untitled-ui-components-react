@@ -1,6 +1,6 @@
 {
   "name": "untitled-ui-reactjs-components",
-  "version": "1.1.21",
+  "version": "1.1.24",
   "main": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "repository": {
@@ -44,6 +44,7 @@
     "@storybook/react-vite": "^8.5.2",
     "@storybook/test": "^8.5.2",
     "@svgr/rollup": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/react": "^19.0.8",
     "css-loader": "^7.1.2",
     "postcss": "^8.5.2",
@@ -57,7 +58,8 @@
     "sass-embedded": "^1.83.4",
     "storybook": "^8.5.2",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite-plugin-svgr": "^4.3.0"
   },
   "dependencies": {
     "react-feather": "^2.0.10"
