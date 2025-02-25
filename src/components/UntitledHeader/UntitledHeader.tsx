@@ -36,6 +36,7 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
         className: getStylingClass(),
         style: props.styles ?? {
           color: getColorHEX(),
+          fontSize: typeof props.size === "number" ? props.size : undefined
         } as CSSProperties
       } as React.HTMLAttributes<any>,
       children: [props.text] as React.ReactNode[]
