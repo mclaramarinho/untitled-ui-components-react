@@ -1,19 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UntitledPaymentMethodIconProps } from './UntitledPaymentMethodIcon.types';
-import UntitledSvgRenderer from '../UntitledSvgRenderer';
-import { useImageProperties } from '../../hooks/useImageProperties';
+import { icons } from './assets';
 
 const UntitledPaymentMethodIcon: React.FC<UntitledPaymentMethodIconProps> = (props) => {
-  const BASE_URL = "../../assets/icons/payment_methods/";
-  
-  const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetFileName: getFileNameByEnum(), width: props.size?.width, height: props.size?.height})
-  
+  const [Icon, setIcon] = useState<React.FC<React.SVGProps<SVGSVGElement>>>(icons[props.paymentMethod]);
 
-  function getFileNameByEnum(){
-    return props.paymentMethod + ".svg";
-  }
+  useEffect(() => {
+    setIcon(icons[props.paymentMethod]);
+  }, [props.paymentMethod])
 
-  return <UntitledSvgRenderer altText={props.altText} width={width} height={height} img={src} ariaHidden={props.ariaHidden} />
+  return <Icon width={props.size?.width} height={props.size?.height} aria-hidden={props.ariaHidden} aria-description={props.altText} />
 };
 
 export default UntitledPaymentMethodIcon;

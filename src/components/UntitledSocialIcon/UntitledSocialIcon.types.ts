@@ -24,8 +24,7 @@ export type SocialNetworkOptions =
     "telegram" |
     "tiktok" |
     "tumblr" |
-    "x-twitter" |
-    "x-twitter" |
+    "x_twitter" |
     "youtube"
 ;
 enum eSocialNetworksNames {

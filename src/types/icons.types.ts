@@ -1,16 +1,26 @@
-import { ImageBaseType, ImageSizeType } from "./image.types";
+import { ImageSizeType } from "./image.types";
 
 /** @description Base type for all Icon components 
- * @extends ImageBaseType
 */
-export interface IconBaseType extends ImageBaseType{
-    /** Optional attribute 
-     * 
-     * If undefined, the icon will have its regular size
+export interface IconBaseType{
+    /** 
+     * [OPTIONAL] If undefined, the icon will have its regular size
      * 
      * @type ImageSizeType
      */
     size?: ImageSizeType;
+
+    /**
+     * [OPTIONAL] parameter to set image ariaHidden attribute
+     * @type boolean | undefined
+     */
+    ariaHidden?: boolean;
+
+    /**
+     * [REQUIRED] parameter to set image alt attribute
+     * @type string
+     */
+    altText: string;
 }
 
 /**

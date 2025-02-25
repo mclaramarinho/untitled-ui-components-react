@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UntitledIntegrationIconProps } from './UntitledIntegrationIcon.types';
-import { useImageProperties } from '../../hooks/useImageProperties';
-import UntitledSvgRenderer from '../UntitledSvgRenderer';
+import { icons } from "./assets";
 
 const UntitledIntegrationIcon: React.FC<UntitledIntegrationIconProps> = (props) => {
-  const BASE_URL = "../../assets/icons/integration/";
-  
-  const { width, height, src } = useImageProperties({ assetBaseUrl: BASE_URL, assetFileName: getFileNameByEnum(), width: props.size?.width, height: props.size?.height})
-  
+  const [Icon, setIcon] = useState<React.FC<React.SVGProps<SVGSVGElement>>>(icons[props.integration]);
 
-  function getFileNameByEnum(){
-    return props.integration + ".svg";
-  }
+  useEffect(() => {
+    setIcon(icons[props.integration]);
+  }, [props.integration])
 
-  return <UntitledSvgRenderer altText={props.altText} width={width} height={height} img={src} ariaHidden={props.ariaHidden} />
+
+  return <Icon width={props.size?.width} height={props.size?.height} aria-hidden={props.ariaHidden} aria-description={props.altText} />
 };
 
 export default UntitledIntegrationIcon;
