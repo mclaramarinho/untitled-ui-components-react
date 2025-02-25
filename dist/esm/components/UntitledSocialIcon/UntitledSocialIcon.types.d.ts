@@ -3,7 +3,7 @@ export interface UntitledSocialIconProps extends IconBaseType {
     social: SocialNetworkOptions;
     variant?: eSocialNetworkIconVariants;
 }
-export type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x-twitter" | "x-twitter" | "youtube";
+export type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x_twitter" | "youtube";
 declare enum eSocialNetworksNames {
     ANGEL_LIST = "angellist",
     APPLE = "apple",

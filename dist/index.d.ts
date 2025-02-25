@@ -45,16 +45,24 @@ type ModuleExport<T = any> = {
 };
 
 /** @description Base type for all Icon components
- * @extends ImageBaseType
 */
-interface IconBaseType extends ImageBaseType {
-    /** Optional attribute
-     *
-     * If undefined, the icon will have its regular size
+interface IconBaseType {
+    /**
+     * [OPTIONAL] If undefined, the icon will have its regular size
      *
      * @type ImageSizeType
      */
     size?: ImageSizeType;
+    /**
+     * [OPTIONAL] parameter to set image ariaHidden attribute
+     * @type boolean | undefined
+     */
+    ariaHidden?: boolean;
+    /**
+     * [REQUIRED] parameter to set image alt attribute
+     * @type string
+     */
+    altText: string;
 }
 /**
  * Used to set the icon to default sizes. Is passed as prop to components.
@@ -799,7 +807,7 @@ interface UntitledSocialIconProps extends IconBaseType {
     social: SocialNetworkOptions;
     variant?: eSocialNetworkIconVariants;
 }
-type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x-twitter" | "x-twitter" | "youtube";
+type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x_twitter" | "youtube";
 declare enum eSocialNetworksNames {
     ANGEL_LIST = "angellist",
     APPLE = "apple",
