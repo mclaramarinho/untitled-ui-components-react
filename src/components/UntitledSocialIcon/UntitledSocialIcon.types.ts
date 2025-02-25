@@ -2,7 +2,7 @@ import { IconBaseType } from "../../types/icons.types";
 
 export interface UntitledSocialIconProps extends IconBaseType {
     social: SocialNetworkOptions,
-    variant?: eSocialNetworkIconVariants
+    variant?: SocialNetworkVariants
 }
 export type SocialNetworkOptions = 
     "angellist" |

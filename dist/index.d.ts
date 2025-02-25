@@ -805,7 +805,7 @@ declare const UntitledPaymentMethodIcon: React.FC<UntitledPaymentMethodIconProps
 
 interface UntitledSocialIconProps extends IconBaseType {
     social: SocialNetworkOptions;
-    variant?: eSocialNetworkIconVariants;
+    variant?: SocialNetworkVariants;
 }
 type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x_twitter" | "youtube";
 declare enum eSocialNetworksNames {
@@ -832,6 +832,7 @@ declare enum eSocialNetworksNames {
     TWITTER = "x-twitter",
     YOUTUBE = "youtube"
 }
+type SocialNetworkVariants = "default" | "gray-default" | "gray-hover" | "white-default" | "white-hover";
 declare enum eSocialNetworkIconVariants {
     DEFAULT = "default",
     GRAY = "gray-default",

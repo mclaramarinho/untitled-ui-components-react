@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UntitledPaymentMethodIconProps } from './UntitledPaymentMethodIcon.types';
 import { icons } from './assets';
 
 const UntitledPaymentMethodIcon: React.FC<UntitledPaymentMethodIconProps> = (props) => {
-  const [Icon, setIcon] = useState<React.FC<React.SVGProps<SVGSVGElement>>>(icons[props.paymentMethod]);
+  const { paymentMethod, size, ariaHidden, altText } = props;
 
-  useEffect(() => {
-    setIcon(icons[props.paymentMethod]);
-  }, [props.paymentMethod])
+  const Icon = icons[paymentMethod] as React.FC<React.SVGProps<SVGSVGElement>>;
 
-  return <Icon width={props.size?.width} height={props.size?.height} aria-hidden={props.ariaHidden} aria-description={props.altText} />
+  return <Icon width={size?.width} height={size?.height} aria-hidden={ariaHidden} aria-description={altText} />
 };
 
 export default UntitledPaymentMethodIcon;

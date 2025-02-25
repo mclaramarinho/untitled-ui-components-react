@@ -1,7 +1,7 @@
 import { IconBaseType } from "../../types/icons.types";
 export interface UntitledSocialIconProps extends IconBaseType {
     social: SocialNetworkOptions;
-    variant?: eSocialNetworkIconVariants;
+    variant?: SocialNetworkVariants;
 }
 export type SocialNetworkOptions = "angellist" | "apple" | "clubhouse" | "discord" | "dribble" | "facebook" | "figma" | "github" | "google" | "instagram" | "layers" | "linkedin" | "pinterest" | "reddit" | "signal" | "snapchat" | "telegram" | "tiktok" | "tumblr" | "x_twitter" | "youtube";
 declare enum eSocialNetworksNames {

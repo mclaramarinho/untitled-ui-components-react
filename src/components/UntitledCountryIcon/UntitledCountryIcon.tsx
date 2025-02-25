@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
 import { icons } from "./assets";
 
@@ -8,14 +8,12 @@ import { icons } from "./assets";
  * @param props 
  */
 const UntitledCountryIcon: React.FC<UntitledCountryIconProps> = (props) => {
-  let [Icon, setIcon] = useState<React.FC<React.SVGProps<SVGSVGElement>>>(icons[props.country]);
+  const { country, size, ariaHidden, altText} = props;
+  const Icon = icons[country] as React.FC<React.SVGProps<SVGSVGElement>>;
 
-  useEffect(() => {
-    setIcon(icons[props.country] as React.FC<React.SVGProps<SVGSVGElement>>);
-  }, [props.country])
-
-  return <Icon width={props.size?.width} height={props.size?.height} 
-          aria-description={props.altText ?? `Icon ${props.country}`} aria-hidden={props.ariaHidden} />
+  return <Icon width={size?.width} height={size?.height} 
+          aria-hidden={ariaHidden}
+          aria-description={altText ?? `Icon ${country}`} />
 };
 
 export default UntitledCountryIcon;

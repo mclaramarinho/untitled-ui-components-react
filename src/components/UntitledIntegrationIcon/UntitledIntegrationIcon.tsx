@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { UntitledIntegrationIconProps } from './UntitledIntegrationIcon.types';
 import { icons } from "./assets";
 
 const UntitledIntegrationIcon: React.FC<UntitledIntegrationIconProps> = (props) => {
-  const [Icon, setIcon] = useState<React.FC<React.SVGProps<SVGSVGElement>>>(icons[props.integration]);
+  const { integration, size, ariaHidden, altText } = props;
+  const Icon = icons[integration] as React.FC<React.SVGProps<SVGSVGElement>>;
 
-  useEffect(() => {
-    setIcon(icons[props.integration]);
-  }, [props.integration])
-
-
-  return <Icon width={props.size?.width} height={props.size?.height} aria-hidden={props.ariaHidden} aria-description={props.altText} />
+  return <Icon width={size?.width} height={size?.height} aria-hidden={ariaHidden} aria-description={altText} />
 };
 
 export default UntitledIntegrationIcon;
