@@ -1,8 +1,7 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
-import { UntitledHeaderProps, HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels } from './UntitledHeader.types';
-import { UntitledFontWeights } from '../../types/typography.types';
+import { UntitledHeaderProps, HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels, HeaderFontSizeByLevel } from './UntitledHeader.types';
 import s from "./UntitledHeader.module.scss";
-import { isUntitledColor, isUntitledColorShades, UntitledColorShades, UntitledColorsList } from '../../types/colors.types';
+import { getColorHEX } from '../../utils/getColorHEX';
 
 
 const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
@@ -28,15 +27,14 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     return createReactElement(headerTagName, properties);
   }
 
-
   // ------------------- AUXILIARY FUNCTIONS ----------------------------------------------------------
   const getBaseProperties = () => {
     return {
       props: {
         className: getStylingClass(),
         style: props.styles ?? {
-          color: getColorHEX(),
-          fontSize: typeof props.size === "number" ? props.size : undefined
+          color: getColorHEX(props.color),
+          fontSize: typeof props.size === "number" ? props.size : undefined,
         } as CSSProperties
       } as React.HTMLAttributes<any>,
       children: [props.text] as React.ReactNode[]
@@ -47,20 +45,7 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     const sizeType = getSizeClassificationByCustomTextSize();
     if(!sizeType) return 'h3';
 
-    switch(sizeType){
-      case '2XL':
-        return 'h1';
-      case 'XL':
-        return 'h2';
-      case 'LG':
-        return 'h3';
-      case 'MD':
-        return 'h4';
-      case 'SM':
-        return 'h5';
-      case 'XS':
-        return 'h6';
-    }
+    return HeaderLevelsByFontSize[sizeType];
   }
 
   const getSizeClassificationByCustomTextSize = (): UntitledHeaderFontSizes | undefined => {
@@ -68,21 +53,16 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     if(typeof props.size !== 'number') return;
 
     const size = props.size as number;
-    if(size >= 72){
-      return '2XL';
-    }else if(size >= 60){
-      return 'XL';
-    }else if(size >= 48){
-      return 'LG';
-    }else if(size >= 36){
-      return 'MD';
-    }else if(size >= 30){
-      return 'SM';
-    }else{
-      return 'XS';
-    }
+    
+    if(size >= 72) return '2XL';
+    else if(size >= 60) return 'XL';
+    else if(size >= 48) return 'LG';
+    else if(size >= 36) return 'MD';
+    else if(size >= 30) return 'SM';
+    else return 'XS';
   }
 
+ 
   const createReactElement = (level: UntitledHeaderLevels, data: {props: React.HTMLAttributes<any>, children: React.ReactNode[]}) : ReactElement => {
     return React.createElement(level, data.props, data.children);
   }
@@ -90,46 +70,20 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
   const getStylingClass = () => {
     const BASE_CLASS = "display-";
     let className = BASE_CLASS;
+
     if(typeof props.size === "number"){
       const sizeType = getSizeClassificationByCustomTextSize();
-      if(!sizeType){
-        className += "md";
-      }else{
-        className+= sizeType.toLowerCase();
-      }
+      className += sizeType ? sizeType.toLowerCase() : "md";
     }else if(props.size){
       className+=props.size.toLowerCase();
     }else{
-      className+="md";
+      className += props.level ? HeaderFontSizeByLevel[props.level].toLowerCase() : "md";
     }
     
-    if(props.weight){
-      className+="-"+props.weight;
-    }else{
-      className+="-regular" as UntitledFontWeights;
-    }
-
+    className += "-" + (props.weight ?? "regular");
+    console.log(className)
     return s[className]
   }
-
-  const getColorHEX = () => {
-    if(!props.color){
-      return UntitledColorsList.AllColors["brand"].shades["500"].hex;
-    }
-
-    if(isUntitledColor(props.color)){
-      return UntitledColorsList.AllColors[props.color].shades["500"].hex;
-    }
-
-    if(isUntitledColorShades(props.color)){
-      const colorTyped = props.color as UntitledColorShades;
-      const [color, shade] = colorTyped.split("-");
-      return UntitledColorsList.AllColors[color].shades[shade].hex; 
-    }
-
-    return props.color;
-  }
-
 
   // ------------------- HOOKS ----------------------------------------------------------
   useEffect(() => {

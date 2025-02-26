@@ -1,27 +1,9 @@
-import { CSSProperties } from "react";
-import { UntitledColors, UntitledColorShades } from "../../types/colors.types";
-import { UntitledFontWeights } from "../../types/typography.types";
+import { TextBaseType } from "../../types/text.types";
 
-export interface UntitledHeaderProps {
-    /**
-     * The text content of the header.  
-     * Accepts a `string` or `number`.
-     */
-    text?: string | number;
-
-    /**
-     * The font weight of the header.  
-     * Should be a value from `UntitledFontWeights` (not defined here).
-     */
-    weight?: UntitledFontWeights;
-
-    /**
-     * The color of the header text.  
-     * Can be a predefined color from `UntitledColorShades` or `UntitledColors`,  
-     * or a custom color string (e.g., HEX, RGB, or color name).
-     */
-    color?: UntitledColorShades | UntitledColors | string;
-
+/**
+ * @extends TextBaseType
+ */
+export interface UntitledHeaderProps extends TextBaseType{
     /**
      * The font size of the header.  
      * Can be a predefined size from `UntitledHeaderFontSizes` or a custom numeric value.
@@ -33,18 +15,12 @@ export interface UntitledHeaderProps {
      * If not provided, it can be inferred from `size` using `HeaderLevelsByFontSize`.
      */
     level?: UntitledHeaderLevels;
-
-    /**
-     * Additional styles to be applied to the header.
-     * Overrides color set by prop.
-     * Accepts a `CSSProperties` object.
-     */
-    styles?: CSSProperties;
 }
 
-
 export type UntitledHeaderFontSizes = '2XL' | 'XL' | 'LG' | 'MD' | 'SM' | 'XS';
+
 export type UntitledHeaderLevels = 'h1' | 'h2'| 'h3' | 'h4' | 'h5' | 'h6'; 
+
 export enum HeaderLevelsByFontSize {
     '2XL' = 'h1',
     'XL' = 'h2',
@@ -52,4 +28,13 @@ export enum HeaderLevelsByFontSize {
     'MD' = 'h4',
     'SM' = 'h5',
     'XS' = 'h6'
+}
+
+export enum HeaderFontSizeByLevel {
+    'h1' = '2XL',
+    'h2' = 'XL',
+    'h3' = 'LG',
+    'h4' = 'MD',
+    'h5' = 'SM',
+    'h6' = 'XS',
 }

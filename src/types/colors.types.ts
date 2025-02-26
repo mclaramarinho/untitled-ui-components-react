@@ -1,6 +1,6 @@
 export type UntitledColors = 'gray' | 'brand' | 'error' | 'warning' | 'success' | 'blue-gray' | 'blue-light' | 'blue' | 'indigo' | 'purple' | 'pink' | 'rose' | 'orange';
 
-const validColors: Set<string> = new Set([
+export const validColors: Set<string> = new Set([
     'gray', 'brand', 'error', 'warning', 'success', 'blue-gray', 'blue-light', 'blue', 'indigo', 'purple', 'pink', 'rose', 'orange'
 ]);
 
@@ -23,7 +23,7 @@ export type UntitledColorShades =
   | 'rose-50' | 'rose-100' | 'rose-200' | 'rose-300' | 'rose-400' | 'rose-500' | 'rose-600' | 'rose-700' | 'rose-800' | 'rose-900'
   | 'orange-50' | 'orange-100' | 'orange-200' | 'orange-300' | 'orange-400' | 'orange-500' | 'orange-600' | 'orange-700' | 'orange-800' | 'orange-900';
 
-const validColorShades: Set<string> = new Set([
+export const validColorShades: Set<string> = new Set([
     
     'gray-50', 'gray-100', 'gray-200', 'gray-300', 'gray-400', 'gray-500', 'gray-600', 'gray-700', 'gray-800', 'gray-900',
     'brand-50', 'brand-100', 'brand-200', 'brand-300', 'brand-400', 'brand-500', 'brand-600', 'brand-700', 'brand-800', 'brand-900',
