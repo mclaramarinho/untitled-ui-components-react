@@ -1,8 +1,10 @@
 /node_modules
 /.github
+/__mocks__
 
 # Jest cache and coverage reports
 coverage/
 jest-cache/
 jest-stare/
+/jest-report/
 *.tsbuildinfo
