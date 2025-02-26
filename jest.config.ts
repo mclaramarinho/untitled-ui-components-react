@@ -6,6 +6,7 @@ const config: Config = {
   setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"], 
   moduleNameMapper: {
     "\\.(css|scss)$": "identity-obj-proxy", 
+    "\\.svg$": "<rootDir>/__mocks__/svgMock.tsx", 
   },
 };
 
