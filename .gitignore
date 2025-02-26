@@ -1,2 +1,8 @@
 /node_modules
 /.github
+
+# Jest cache and coverage reports
+coverage/
+jest-cache/
+jest-stare/
+*.tsbuildinfo
