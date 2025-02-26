@@ -81,7 +81,6 @@ const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {
     }
     
     className += "-" + (props.weight ?? "regular");
-    console.log(className)
     return s[className]
   }
 

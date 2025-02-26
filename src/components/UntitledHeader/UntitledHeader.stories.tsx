@@ -24,14 +24,14 @@ const defaultArgTypes = {
       labels: headerLevelOptions,
     }
   } as InputType,
-  fontWeight: {
+  weight: {
     options: fontWeightOptions,
     control: {
       type: "select",
       labels: fontWeightOptions
     }
   } as InputType,
-  style: {
+  styles: {
     type: "string",
     description: "Object of type CSSProperties",
     control: {
@@ -80,9 +80,9 @@ const customColorOptions = {
   } as InputType
 } as Partial<ArgTypes<UntitledHeaderProps>>;
 
-type Story = StoryObj<typeof UntitledHeader>;
 
 // STORIES ---------------------------------------------------------------------------------
+type Story = StoryObj<typeof UntitledHeader>;
 
 export const DefaultSizes: Story = {
   args: {

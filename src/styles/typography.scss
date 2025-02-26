@@ -27,6 +27,7 @@
         .text-#{$key}-#{$fw_key}{
             
             font-family: Inter;
+            margin: 0;
 
             @each $prop, $value in $content{
                 #{$prop}: #{$value};
