@@ -3,4 +3,5 @@ export { UntitledColorsList, isUntitledColor, isUntitledColorShades } from "./co
 export type { IconBaseType, FixedIconSize } from "./icons.types";
 export type { ImageBaseType, ImageSizeType, ModuleExport } from "./image.types";
 export type { UntitledFontWeights } from "./typography.types";
+export type { TextBaseType } from "./text.types";
 

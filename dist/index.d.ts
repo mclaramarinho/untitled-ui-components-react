@@ -406,7 +406,12 @@ declare class UntitledColorsList {
 
 type UntitledFontWeights = 'regular' | 'medium' | 'semibold' | 'bold';
 
-interface UntitledHeaderProps {
+/**
+ * @borrows UntitledFontWeights as weight
+ * @borrows UntitledColorShades as color
+ * @borrows UntitledColors as color
+ */
+interface TextBaseType {
     /**
      * The text content of the header.
      * Accepts a `string` or `number`.
@@ -414,15 +419,27 @@ interface UntitledHeaderProps {
     text?: string | number;
     /**
      * The font weight of the header.
-     * Should be a value from `UntitledFontWeights` (not defined here).
      */
     weight?: UntitledFontWeights;
     /**
-     * The color of the header text.
-     * Can be a predefined color from `UntitledColorShades` or `UntitledColors`,
-     * or a custom color string (e.g., HEX, RGB, or color name).
-     */
+    * The color of the header text.
+    * Can be a predefined color from `UntitledColorShades` or `UntitledColors`,
+    * or a custom color string (e.g., HEX, RGB, or color name).
+    *
+    */
     color?: UntitledColorShades | UntitledColors | string;
+    /**
+     * Additional styles to be applied to the header.
+     * Overrides color set by prop.
+     * Accepts a `CSSProperties` object.
+     */
+    styles?: CSSProperties;
+}
+
+/**
+ * @extends TextBaseType
+ */
+interface UntitledHeaderProps extends TextBaseType {
     /**
      * The font size of the header.
      * Can be a predefined size from `UntitledHeaderFontSizes` or a custom numeric value.
@@ -433,12 +450,6 @@ interface UntitledHeaderProps {
      * If not provided, it can be inferred from `size` using `HeaderLevelsByFontSize`.
      */
     level?: UntitledHeaderLevels;
-    /**
-     * Additional styles to be applied to the header.
-     * Overrides color set by prop.
-     * Accepts a `CSSProperties` object.
-     */
-    styles?: CSSProperties;
 }
 type UntitledHeaderFontSizes = '2XL' | 'XL' | 'LG' | 'MD' | 'SM' | 'XS';
 type UntitledHeaderLevels = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -844,31 +855,18 @@ declare enum eSocialNetworkIconVariants {
 declare const UntitledSocialIcon: React.FC<UntitledSocialIconProps>;
 
 /**
- * Type for UntitledSvgRenderer component
- * @interface
- * @extends ImageBaseType
- */
-interface UntitledSvgRendererProps extends ImageBaseType {
+* @extends TextBaseType
+* @borrows UntitledHeaderFontSizes as size
+*/
+interface UntitledTextProps extends TextBaseType {
     /**
-     * [OPTIONAL] - If undefined, image size will not be altered
+     * The font size of the header.
+     * Can be a predefined size from `UntitledHeaderFontSizes` or a custom numeric value.
      */
-    width?: number;
-    /**
-     * [OPTIONAL] - If undefined, image size will not be altered
-     */
-    height?: number;
+    size?: number | UntitledTextFontSizes;
 }
+type UntitledTextFontSizes = 'XL' | 'LG' | 'MD' | 'SM' | 'XS';
 
-/**
- * Renders SVG files from path url or from image module
- * @param props
- * @prop width
- * @prop height
- * @prop altText
- * @prop ariaHidden
- * @prop imgPath
- * @prop img
- */
-declare const UntitledSvgRenderer: React.FC<UntitledSvgRendererProps>;
+declare const UntitledText: React.FC<UntitledTextProps>;
 
-export { type AllIntegrations, FixedIconSize, HeaderLevelsByFontSize, type IconBaseType, type ImageBaseType, type ImageSizeType, type ModuleExport, type UntitleIconVariant, type UntitledColorShades, type UntitledColors, UntitledColorsList, UntitledCountryIcon, type UntitledCountryIconProps, type UntitledFontWeights, UntitledHeader, type UntitledHeaderFontSizes, type UntitledHeaderLevels, type UntitledHeaderProps, UntitledIcon, type UntitledIconProps, type UntitledIconStyles, type UntitledIconType, UntitledIntegrationIcon, type UntitledIntegrationIconProps, UntitledPaymentMethodIcon, type UntitledPaymentMethodIconProps, UntitledPaymentMethodIconSize, UntitledSocialIcon, type UntitledSocialIconProps, UntitledSvgRenderer, type UntitledSvgRendererProps, eBrowserNames, eCodingPlatforms, type eCountryAbbr, eCountryIconAssetByAbbreviation, eDesignPlatforms, eFinance, eMessengers, eMusic, eOSNames, eOtherIntegrations, ePaymentMethod, eProductivity, eSocialIntegrations, eSocialNetworkIconVariants, eSocialNetworksNames as eSocialNetworks, eVideoIntegrations, iconNamesFromFeatherIcons, isUntitledColor, isUntitledColorShades };
+export { type AllIntegrations, FixedIconSize, HeaderLevelsByFontSize, type IconBaseType, type ImageBaseType, type ImageSizeType, type ModuleExport, type TextBaseType, type UntitleIconVariant, type UntitledColorShades, type UntitledColors, UntitledColorsList, UntitledCountryIcon, type UntitledCountryIconProps, type UntitledFontWeights, UntitledHeader, type UntitledHeaderFontSizes, type UntitledHeaderLevels, type UntitledHeaderProps, UntitledIcon, type UntitledIconProps, type UntitledIconStyles, type UntitledIconType, UntitledIntegrationIcon, type UntitledIntegrationIconProps, UntitledPaymentMethodIcon, type UntitledPaymentMethodIconProps, UntitledPaymentMethodIconSize, UntitledSocialIcon, type UntitledSocialIconProps, UntitledText, type UntitledTextFontSizes, type UntitledTextProps, eBrowserNames, eCodingPlatforms, type eCountryAbbr, eCountryIconAssetByAbbreviation, eDesignPlatforms, eFinance, eMessengers, eMusic, eOSNames, eOtherIntegrations, ePaymentMethod, eProductivity, eSocialIntegrations, eSocialNetworkIconVariants, eSocialNetworksNames as eSocialNetworks, eVideoIntegrations, iconNamesFromFeatherIcons, isUntitledColor, isUntitledColorShades };
