@@ -1,6 +1,6 @@
-import { ImageBaseType, ImageSizeType } from "../../types";
+import { IconBaseType, ImageSizeType } from "../../types";
 
-export interface UntitledPaymentMethodIconProps extends ImageBaseType {
+export interface UntitledPaymentMethodIconProps extends IconBaseType {
     paymentMethod: PaymentMethodOption;
     size?: ImageSizeType;
 }
