@@ -1,0 +1,41 @@
+@use 'variables/typography';
+
+// Font: Inter
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+// e.g: .display-2xl-bold
+@each $fw_key, $fw_content in typography.$font_weight_settings{
+    @each $key, $content in typography.$display_settings{
+        .display-#{$key}-#{$fw_key}{
+            
+            font-family: Inter;
+            margin: 0;
+            @each $prop, $value in $content{
+                #{$prop}: #{$value};
+            }
+
+            @each $prop, $value in $fw_content{
+                #{$prop}: #{$value};
+            }
+        }
+    }
+}
+
+// e.g: .text-xl-bold
+@each $fw_key, $fw_content in typography.$font_weight_settings{
+    @each $key, $content in typography.$text_settings{
+        .text-#{$key}-#{$fw_key}{
+            
+            font-family: Inter;
+            margin: 0;
+
+            @each $prop, $value in $content{
+                #{$prop}: #{$value};
+            }
+
+            @each $prop, $value in $fw_content{
+                #{$prop}: #{$value};
+            }
+        }
+    }
+}

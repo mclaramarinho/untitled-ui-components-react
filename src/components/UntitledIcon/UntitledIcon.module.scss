@@ -1,0 +1,15 @@
+// @use '../index.scss';
+
+.untitled-icon{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+        border-radius: 100%;
+        display: grid;
+        justify-content: center;
+        align-items: center;        
+    }
+}
+

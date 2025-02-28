@@ -4,6 +4,9 @@ import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import svgr from "@svgr/rollup";
+import postcss from "rollup-plugin-postcss";
+import copy from "rollup-plugin-copy";
 
 const packageJson = require('./package.json');
 
@@ -13,11 +16,6 @@ export default [
         output: [
             {
                 file: packageJson.main,
-                format: "cjs",
-                sourcemap: true
-            },
-            {
-                file: packageJson.module,
                 format: "esm",
                 sourcemap: true
             }
@@ -26,15 +24,43 @@ export default [
             peerDepsExternal(),
             resolve(),
             commonjs(),
+
             typescript({
-                tsconfig: "./tsconfig.json"
-            })
+                tsconfig: "./tsconfig.json",
+                declaration: true,
+                declarationDir: "dist/esm/"
+            }),
+            terser(),
+            copy({
+                targets: [
+                    { src: "assets/icons/countries/*", dest: "dist/assets/icons/countries" },
+                    { src: "assets/icons/integration/*", dest: "dist/assets/icons/integration" },
+                    { src: "assets/icons/payment_methods/*", dest: "dist/assets/icons/payment_methods" },
+                    { src: "assets/icons/social/default/*", dest: "dist/assets/icons/social/default" },
+                    { src: "assets/icons/social/gray-default/*", dest: "dist/assets/icons/social/gray-default" },
+                    { src: "assets/icons/social/gray-hover/*", dest: "dist/assets/icons/social/gray-hover" },
+                    { src: "assets/icons/social/white-default/*", dest: "dist/assets/icons/social/white-default" },
+                    { src: "assets/icons/social/white-hover/*", dest: "dist/assets/icons/social/white-hover" },
+                ],
+              }),
+            svgr(),
+            postcss({
+                plugins: [
+                    require('postcss-preset-env')(), // Optional: Adds support for modern CSS features
+                  ],
+                modules: true,
+                extract: true,
+                minimize: true,
+                use: [ "sass" ],
+                sourceMap: true,
+            }),
+            // imageFiles(),
         ],
         external: ["react", "react-dom"]
     },
     {
         input: ["src/index.ts"],
-        output: [{ file: "dist/types.d.ts", format: "es" }],
+        output: [{ file: packageJson.types, format: "es" }],
         plugins: [dts.default()],
     }
 ]

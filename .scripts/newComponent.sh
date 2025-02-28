@@ -35,15 +35,21 @@ EOL
 # Writes the content of the .tsx file
 cat > "$COMPONENT_DIR/$COMPONENT_NAME.tsx" <<EOL
 import React from 'react';
-import styles from './$COMPONENT_NAME.module.scss';
+import s from './$COMPONENT_NAME.module.scss';
 import $COMPONENT_PROPS_NAME from './$COMPONENT_NAME.types';
 
 const $COMPONENT_NAME: React.FC<$COMPONENT_PROPS_NAME> = () => {
-  return <div className={styles.$(echo "$COMPONENT_NAME" | awk '{print tolower(substr($0,1,1)) substr($0,2)}')} />;
+  return <div className={s.$(echo "$COMPONENT_NAME" | awk '{print tolower(substr($0,1,1)) substr($0,2)}')} />;
 };
 
 export default $COMPONENT_NAME;
 EOL
+
+
+cat > "$COMPONENT_DIR/$COMPONENT_NAME.module.scss" << EOL
+@use '../index.scss';
+EOL
+
 
 cat > "$COMPONENT_DIR/$COMPONENT_NAME.stories.tsx" <<EOL
 import { Meta, StoryFn } from '@storybook/react';

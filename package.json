@@ -1,20 +1,29 @@
 {
-  "name": "untitled-ui-reactjs",
-  "version": "1.0.0",
-  "main": "dist/cjs/index.js",
-  
-  "module": "dist/esm/index.js",
+  "name": "untitled-ui-reactjs-components",
+  "version": "1.1.28",
+  "main": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  
+  "repository": {
+    "url": "https://github.com/mclaramarinho/untitled-ui-components-react",
+    "directory": "dist/"
+  },
+  "author": "Clara M. <marinho.claramb@gmail.com>",
+  "keywords": [
+    "component",
+    "library",
+    "components",
+    "react",
+    "reactjs",
+    "typescript"
+  ],
+  "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rollup": "rollup -c --bundleConfigAsCjs",
-    "storybook": "storybook dev -p 6006",
+    "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "create-component": "bash ./.scripts/newComponent.sh"
   },
-  "author": "Clara M. <marinho.claramb@gmail.com>",
-  "license": "MIT",
   "description": "",
   "peerDependencies": {
     "react": "^19.0.0",
@@ -26,6 +35,7 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-url": "^8.0.2",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
     "@storybook/addon-onboarding": "^8.5.2",
@@ -33,16 +43,25 @@
     "@storybook/react": "^8.5.2",
     "@storybook/react-vite": "^8.5.2",
     "@storybook/test": "^8.5.2",
+    "@svgr/rollup": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/react": "^19.0.8",
     "css-loader": "^7.1.2",
+    "postcss": "^8.5.2",
+    "postcss-preset-env": "^10.1.4",
     "rollup": "^4.32.1",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.84.0",
     "sass-embedded": "^1.83.4",
     "storybook": "^8.5.2",
-    "style-loader": "^4.0.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite-plugin-svgr": "^4.3.0"
+  },
+  "dependencies": {
+    "react-feather": "^2.0.10"
   }
 }

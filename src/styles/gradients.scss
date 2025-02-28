@@ -1,0 +1,43 @@
+@use "sass:map";
+@use "variables/colors";
+@use "variables/gradient";
+
+
+// Gets the primary color of the gradient from the $gradient_color_map in variables/gradient file
+@function get-color-1($color, $grad_type){
+    $color1_weight: map.get(gradient.$gradient_color_map, $grad_type, 'color1');
+    @return var(--primary-#{$color}-#{$color1_weight});
+}
+
+// Gets the secondary color of the gradient from the $gradient_color_map in variables/gradient file
+@function get-color-2($color, $grad_type){
+    $color2_weight: map.get(gradient.$gradient_color_map, $grad_type, 'color2');
+    @return var(--primary-#{$color}-#{$color2_weight});
+}
+
+
+// Gets the degree of the gradient from the $gradient_color_map in variables/gradient file
+@function get-degree($grad_type){
+    $degree: map.get(gradient.$gradient_color_map, $grad_type, 'deg');
+    @return $degree;
+}
+
+
+@mixin gradient($color1, $color2, $degree){
+    background: linear-gradient($degree, $color1, $color2);
+}
+
+// e.g: .gradient-blue-2
+@each $color in colors.$color_names{
+    @each $number in gradient.$gradient_types{
+        @if(map.has-key(gradient.$gradient_color_map, $number)){
+            .gradient-#{$color}-#{$number}{
+                @include gradient(
+                    get-color-1($color, $number), 
+                    get-color-2($color, $number), 
+                    get-degree($number)
+                );
+            }
+        }
+    }
+}

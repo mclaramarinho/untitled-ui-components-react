@@ -1,0 +1,12 @@
+import { Meta, ReactRenderer } from '@storybook/react';
+import { UntitledCountryIconProps } from './UntitledCountryIcon.types';
+import { AnnotatedStoryFn } from 'storybook/internal/types';
+declare const _default: Meta;
+export default _default;
+export declare const DefaultSizedIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const SmallIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const MediumIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const LargeIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const ExtraLargeIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const DoubleExtraLargeIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;
+export declare const CustomSizedIcon: AnnotatedStoryFn<ReactRenderer, UntitledCountryIconProps>;

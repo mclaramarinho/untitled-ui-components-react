@@ -11,5 +11,5 @@ const Template: StoryFn<typeof TemplateButton> = (args) => <TemplateButton { ...
 export const TemplateButtonTest = Template.bind({} as TemplateButtonProps);
 
 TemplateButtonTest.args = {
-    text: "Template Button"
+    text: "Display 2XL"
 };

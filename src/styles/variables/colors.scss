@@ -1,0 +1,175 @@
+$color_names: 'gray', 'brand', 'error', 'warning', 'success', 'blue-gray', 'blue-light', 'blue', 'indigo', 'purple', 'pink', 'rose', 'orange';
+
+:root{
+    /* Primary Colors */
+        /* Gray */
+        --primary-gray-25: #FDFDFD;
+        --primary-gray-50: #FAFAFA;
+        --primary-gray-100: #F5F5F5;
+        --primary-gray-200: #E9EAEB;
+        --primary-gray-300: #D5D7DA;
+        --primary-gray-400: #A4A7AE;
+        --primary-gray-500: #717680;
+        --primary-gray-600: #535862;
+        --primary-gray-700: #414651;
+        --primary-gray-800: #252B37;
+        --primary-gray-900: #101828;
+    
+        /* Brand */
+        --primary-brand-25: #FCFAFF;
+        --primary-brand-50: #F9F5FF;
+        --primary-brand-100: #F4EBFF;
+        --primary-brand-200: #E9D7FE;
+        --primary-brand-300: #D6BBFB;
+        --primary-brand-400: #B692F6;
+        --primary-brand-500: #9E77ED;
+        --primary-brand-600: #7F56D9;
+        --primary-brand-700: #6941C6;
+        --primary-brand-800: #53389E;
+        --primary-brand-900: #42307D;
+        
+        /* Error */
+        --primary-error-25: #FFFBFA;
+        --primary-error-50: #FEF3F2;
+        --primary-error-100: #FEE4E2;
+        --primary-error-200: #FECDCA;
+        --primary-error-300: #FDA29B;
+        --primary-error-400: #F97066;
+        --primary-error-500: #F04438;
+        --primary-error-600: #D92D20;
+        --primary-error-700: #B42318;
+        --primary-error-800: #912018;
+        --primary-error-900: #7A271A;
+         
+        /* Warning */
+        --primary-warning-25: #FFFCF5;
+        --primary-warning-50: #FFFAEB;
+        --primary-warning-100: #FEF0C7;
+        --primary-warning-200: #FEDF89;
+        --primary-warning-300: #FEC84B;
+        --primary-warning-400: #FDB022;
+        --primary-warning-500: #F79009;
+        --primary-warning-600: #DC6803;
+        --primary-warning-700: #B54708;
+        --primary-warning-800: #93370D;
+        --primary-warning-900: #7A2E0E;
+        
+        /* Success */
+        --primary-success-25: #F6FEF9;
+        --primary-success-50: #ECFDF3;
+        --primary-success-100: #D1FADF;
+        --primary-success-200: #A6F4C5;
+        --primary-success-300: #6CE9A6;
+        --primary-success-400: #32D583;
+        --primary-success-500: #12B76A;
+        --primary-success-600: #039855;
+        --primary-success-700: #027A48;
+        --primary-success-800: #05603A;
+        --primary-success-900: #054F31;
+    
+    /* Secondary Colors */
+    
+        /* Blue gray */
+        --secondary-blue-gray-25: #FCFCFD;
+        --secondary-blue-gray-50: #F8F9FC;
+        --secondary-blue-gray-100: #EAECF5;
+        --secondary-blue-gray-200: #D5D9EB;
+        --secondary-blue-gray-300: #AFB5D9;
+        --secondary-blue-gray-400: #717BBC;
+        --secondary-blue-gray-500: #4E5BA6;
+        --secondary-blue-gray-600: #3E4784;
+        --secondary-blue-gray-700: #363F72;
+        --secondary-blue-gray-800: #293056;
+        --secondary-blue-gray-900: #101323;
+        
+        /* Blue light */
+        --secondary-blue-light-25: #F5FBFF;
+        --secondary-blue-light-50: #F0F9FF;
+        --secondary-blue-light-100: #E0F2FE;
+        --secondary-blue-light-200: #B9E6FE;
+        --secondary-blue-light-300: #7CD4FD;
+        --secondary-blue-light-400: #36BFFA;
+        --secondary-blue-light-500: #0BA5EC;
+        --secondary-blue-light-600: #0086C9;
+        --secondary-blue-light-700: #026AA2;
+        --secondary-blue-light-800: #065986;
+        --secondary-blue-light-900: #0B4A6F;
+        
+        /* Blue */
+        --secondary-blue-25: #F5FAFF;
+        --secondary-blue-50: #EFF8FF;
+        --secondary-blue-100: #D1E9FF;
+        --secondary-blue-200: #B2DDFF;
+        --secondary-blue-300: #84CAFF;
+        --secondary-blue-400: #53B1FD;
+        --secondary-blue-500: #2E90FA;
+        --secondary-blue-600: #1570EF;
+        --secondary-blue-700: #175CD3;
+        --secondary-blue-800: #1849A9;
+        --secondary-blue-900: #194185;
+        
+        /* Indigo */
+        --secondary-indigo-25: #F5F8FF;
+        --secondary-indigo-50: #EEF4FF;
+        --secondary-indigo-100: #E0EAFF;
+        --secondary-indigo-200: #C7D7FE;
+        --secondary-indigo-300: #A4BCFD;
+        --secondary-indigo-400: #8098F9;
+        --secondary-indigo-500: #6172F3;
+        --secondary-indigo-600: #444CE7;
+        --secondary-indigo-700: #3538CD;
+        --secondary-indigo-800: #2D31A6;
+        --secondary-indigo-900: #2D3282;
+        
+        /* Purple */
+        --secondary-purple-25: #FAFAFF;
+        --secondary-purple-50: #F4F3FF;
+        --secondary-purple-100: #EBE9FE;
+        --secondary-purple-200: #D9D6FE;
+        --secondary-purple-300: #BDB4FE;
+        --secondary-purple-400: #9B8AFB;
+        --secondary-purple-500: #7A5AF8;
+        --secondary-purple-600: #6938EF;
+        --secondary-purple-700: #5925DC;
+        --secondary-purple-800: #4A1FB8;
+        --secondary-purple-900: #3E1C96;
+        
+        /* Pink */
+        --secondary-pink-25: #FEF6FB;
+        --secondary-pink-50: #FDF2FA;
+        --secondary-pink-100: #FCE7F6;
+        --secondary-pink-200: #FCCEEE;
+        --secondary-pink-300: #FAA7E0;
+        --secondary-pink-400: #F670C7;
+        --secondary-pink-500: #EE46BC;
+        --secondary-pink-600: #DD2590;
+        --secondary-pink-700: #C11574;
+        --secondary-pink-800: #9E165F;
+        --secondary-pink-900: #851651;
+        
+        /* Rosé */
+        --secondary-rose-25: #FFF5F6;
+        --secondary-rose-50: #FFF1F3;
+        --secondary-rose-100: #FFE4E8;
+        --secondary-rose-200: #FECDD6;
+        --secondary-rose-300: #FEA3B4;
+        --secondary-rose-400: #FD6F8E;
+        --secondary-rose-500: #F63D68;
+        --secondary-rose-600: #E31B54;
+        --secondary-rose-700: #C01048;
+        --secondary-rose-800: #A11043;
+        --secondary-rose-900: #89123E;
+        
+        /* Orange */
+        --secondary-rose-25: #FFFAF5;
+        --secondary-rose-50: #FFF6ED;
+        --secondary-rose-100: #FFEAD5;
+        --secondary-rose-200: #FDDCAB;
+        --secondary-rose-300: #FEB273;
+        --secondary-rose-400: #FD853A;
+        --secondary-rose-500: #FB6514;
+        --secondary-rose-600: #EC4A0A;
+        --secondary-rose-700: #C4320A;
+        --secondary-rose-800: #9C2A10;
+        --secondary-rose-900: #7E2410;
+}
