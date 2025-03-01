@@ -1,5 +1,5 @@
 import * as icons from "react-feather";
-import { UntitledColors } from "../../types/colors.types";
+import { UntitledColors, UntitledColorShades } from "../../types/colors.types";
 import { CSSProperties } from "react";
 
 export interface UntitledIconProps {

@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { UntitledHeaderProps, HeaderLevelsByFontSize, UntitledHeaderFontSizes, UntitledHeaderLevels, HeaderFontSizeByLevel } from './UntitledHeader.types';
 import s from "./UntitledHeader.module.scss";
-import { getColorHEX } from '../../utils/getColorHEX';
+import { getColorHEX } from '../../utils/colors';
 
 
 const UntitledHeader: React.FC<UntitledHeaderProps> = (props) => {

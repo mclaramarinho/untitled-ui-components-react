@@ -42,27 +42,22 @@ $display_settings: (
 $text_settings: (
     "xl": (
         font-size: 1.25rem, // 20px
-        line-height: 1.875rem, // 30px
         letter-spacing: calc(1rem * 0)
     ),
     "lg": (
         font-size: 1.125rem, // 18px
-        line-height: 1.75rem, // 28px
         letter-spacing: calc(1rem * 0)
     ),
     "md": (
         font-size: 1rem, // 16px
-        line-height: 1.5rem, // 24px
         letter-spacing: calc(1rem * 0)
     ),
     "sm": (
         font-size: 0.875rem, // 14px
-        line-height: 1.25rem, // 20px
         letter-spacing: calc(1rem * 0)
     ),
     "xs": (
         font-size: 0.75rem, // 12px
-        line-height: 1.125rem, // 18px
         letter-spacing: calc(1rem * 0)
     ),
 );

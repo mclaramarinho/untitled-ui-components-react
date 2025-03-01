@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import s from './UntitledText.module.scss';
 import { UntitledTextFontSizes, UntitledTextProps } from './UntitledText.types';
-import { getColorHEX } from '../../utils/getColorHEX';
+import { getColorHEX } from '../../utils/colors';
 
 const UntitledText: React.FC<UntitledTextProps> = (props) => {
   const [pElement, setPElement] = useState<ReactElement>();  

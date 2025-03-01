@@ -1,0 +1,51 @@
+@use '../index.scss';
+
+
+.untitled-button{
+    appearance: none;
+    border-radius: 8px;
+    font-family: 'Inter';
+    display: flex;
+    column-gap: 8px;
+    font-weight: 600;
+    outline: none;
+    border: none;
+}
+
+// Button sizes
+.untitled-button-sm{
+    padding: 8px 14px;
+    font-size: 14px;
+}
+
+.untitled-button-md{
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+.untitled-button-lg{
+    padding: 10px 18px;
+    font-size: 16px;
+}
+
+.untitled-button-xl{
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.untitled-button-2xl{
+    padding: 16px 28px;
+    font-size: 18px;
+ }
+
+// Button shadow box 
+.untitled-button-shadow-box {
+    display: grid;
+    align-items: center;
+    width: fit-content;
+    padding: 4px;
+    border-radius: 8px;
+    background-color: transparent;
+}
+.untitled-button-shadow-box-focused {
+}

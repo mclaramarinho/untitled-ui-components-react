@@ -14,3 +14,4 @@ export interface UntitledTextProps extends TextBaseType{
 
 
 export type UntitledTextFontSizes = 'XL' | 'LG' | 'MD' | 'SM' | 'XS';
+
