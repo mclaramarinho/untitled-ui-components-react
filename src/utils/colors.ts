@@ -1,4 +1,5 @@
 import { isUntitledColor, isUntitledColorShades, UntitledColors, UntitledColorShades, UntitledColorsList } from "../types";
+import Logger from "./Logger";
 
 export const getColorHEX = (colorValue?: string | UntitledColorShades | UntitledColors ) => {
     if(!colorValue)
@@ -19,19 +20,25 @@ export const getColorHEX = (colorValue?: string | UntitledColorShades | Untitled
 export type DarkOrLight = "dark" | "light";
 
 export const isDarkOrLightColor = (colorHEX: string) : DarkOrLight => {
-    // Remove the '#' if present
-    const hex = colorHEX.replace(/^#/, "");
+    try{
+        // Remove the '#' if present
+        const hex = colorHEX.replace(/^#/, "");
 
-    // Convert hex to RGB
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
+        // Convert hex to RGB
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
 
-    // Calculate luminance using the YIQ formula
-    const luminance = (r * 0.299 + g * 0.587 + b * 0.114);
+        // Calculate luminance using the YIQ formula
+        const luminance = (r * 0.299 + g * 0.587 + b * 0.114);
 
-    // Return black text for light backgrounds, white text for dark backgrounds
-    return luminance >= 128 ? "light" : "dark";
+        // Return black text for light backgrounds, white text for dark backgrounds
+        return luminance >= 128 ? "light" : "dark";
+    }catch(ex){
+        Logger.error("isDarkOrLightColor - Could not read HEX code. Returning default luminance type.");
+        return "dark";
+    }
+    
 } 
 
 export const getContrastColorByHEX = (colorHEX: string) : string => {
