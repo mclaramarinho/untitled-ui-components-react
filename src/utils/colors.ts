@@ -76,7 +76,7 @@ export const getContrastColor = (color: UntitledColors | UntitledColorShades) : 
 
 export const getSubToneColorByHEX = (colorHEX: string) : string => {
     const colorLuminance: DarkOrLight = isDarkOrLightColor(colorHEX);
-    return colorLuminance === "dark" ? "#FFFFFF4C" : "#0000004C";
+    return colorLuminance === "dark" ? `${colorHEX}0D` : `${colorHEX}4C`;
 }
  
 export const getSubToneColor = (color: UntitledColors | UntitledColorShades) : string => {
