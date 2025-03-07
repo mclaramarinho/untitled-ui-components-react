@@ -181,7 +181,6 @@ const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
 // CHILD COMPONENT - PRIMARY VARIANT -------------------------------------------------------------------------------------
 const PrimaryButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
-	console.log("PrimaryButton", ctx)
 	try{
 		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
@@ -631,7 +630,6 @@ const TertiaryButton: React.FC = () => {
 
 		const setBgColorConfig = () : string => {
 			if(hovered && !focused){
-				console.log("bgColor", props.bgColor)
 				if(props.destructive){
 					return getColorHEX(`error-${BG_COLOR_SHADE["hovered"]}`);
 				}
@@ -652,7 +650,6 @@ const TertiaryButton: React.FC = () => {
 
 		const setTextColorConfig = () : string => {
 			const state:string = props.disabled ? "disabled" : hovered ? "hovered" : "default";
-			console.log("state", state)
 			if(props.destructive){
 				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
 			}
@@ -760,7 +757,6 @@ const TertiaryGrayButton: React.FC = () => {
 
 		const setBgColorConfig = () : string => {
 			if(hovered && !focused){
-				console.log("bgColor", props.bgColor)
 				if(props.destructive){
 					return getColorHEX(`error-${BG_COLOR_SHADE["hovered"]}`);
 				}
