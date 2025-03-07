@@ -14,6 +14,9 @@
 .untitled-button:disabled{
     cursor: not-allowed;
 }
+.untitled-button[ui-variant='link'], .untitled-button[ui-variant='link-gray']{
+    padding: 0;
+}
 
 // Button sizes
 .untitled-button-sm{
@@ -52,39 +55,3 @@
     border-radius: 8px;
     background-color: transparent;
 }
-
-
-.untitled-button-primary{
-}
-.untitled-button-primary-destructive{
-
-}
-
-.untitled-button-primary-gray{
-
-}
-.untitled-button-primary-gray-destructive{
-
-}
-
-.untitled-button-secondary{
-
-}
-.untitled-button-secondary-destructive{
-
-}
-
-.untitled-button-secondary-gray{}
-.untitled-button-secondary-gray-destructive{}
-
-.untitled-button-tertiary{}
-.untitled-button-tertiary-destructive{}
-
-.untitled-button-tertiary-gray{}
-.untitled-button-tertiary-gray-destructive{}
-
-.untitled-button-link{}
-.untitled-button-link-destructive{}
-
-.untitled-button-link-gray{}
-.untitled-button-link-gray-destructive{}

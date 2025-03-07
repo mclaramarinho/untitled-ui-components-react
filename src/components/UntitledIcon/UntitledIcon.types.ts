@@ -1,5 +1,5 @@
 import * as icons from "react-feather";
-import { UntitledColors, UntitledColorShades } from "../../types/colors.types";
+import { UntitledColors } from "../../types/colors.types";
 import { CSSProperties } from "react";
 
 export interface UntitledIconProps {
@@ -22,7 +22,7 @@ export interface UntitledIconProps {
 
 export const iconNamesFromFeatherIcons = Object.keys(icons);
 
-export type UntitledIconType = (typeof iconNamesFromFeatherIcons)[number];
+export type UntitledIconType =  keyof typeof icons;
 
 export type UntitleIconVariant = "no-bg" | "light" | "double-color-light" | "double-color-dark" | "square-fill-light" | "square-fill" | "square-fill-dark" | "square-outline";
 

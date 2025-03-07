@@ -5,13 +5,6 @@ import UntitledButtonProps from './UntitledButton.types';
 export default {
   title: 'Components/UntitledButton',
   component: UntitledButton,
-  argTypes: {
-    color: {
-      
-      control: {
-      }
-    }
-  }
 } as Meta;
 
 const Template: StoryFn = (args) => <UntitledButton {...args} />;
