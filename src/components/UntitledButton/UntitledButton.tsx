@@ -1,407 +1,275 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
-import UntitledButtonProps from './UntitledButton.types';
+import React, { createContext, CSSProperties, useContext, useEffect, useRef, useState } from 'react';
+import UntitledButtonProps, { ButtonIconPosition, ButtonSizes, ButtonVariant } from './UntitledButton.types';
 import { getColorHEX, getContrastColor, getContrastColorByHEX, getSubToneColor, getSubToneColorByHEX } from '../../utils/colors';
 import * as icons from 'react-feather';
-import { isUntitledColor, isUntitledColorShades } from '../../types';
+import { isUntitledColor, isUntitledColorShades, UntitledColors, UntitledColorShades } from '../../types';
 import style from "./UntitledButton.module.scss";
 
+interface UntitledButtonContextType {
+	props?: UntitledButtonProps;
+	baseClasses?: string;
+	textSize?: number;
+	shouldAppendIcon?: boolean;
+	showIcon?: boolean;
+	iconComponent?: icons.Icon;
+}
+
+const ButtonContext = createContext<UntitledButtonContextType|undefined>(undefined);
 
 
-
-const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
-	const [styles, setStyles] = useState<CSSProperties>();
-
-	const [baseClasses, setBaseClasses] = useState<string>();
-
-	const [secondaryBgColor, setSecondaryBgColor] = useState<string>();
-
-	const [textColor, setTextColor] = useState<string>();
-	const [textSize, setTextSize] = useState<number>();
+const getBgColorConfig = (state: "disabled" | "hovered" | "default", 
+							isDestructive: boolean, 
+							colorShadeMap: {[key: string]: number},
+							bgColor?: UntitledColors | UntitledColorShades | string,
+						) : string => {
+	const color = isDestructive ? "error" : 
+					!bgColor ? "brand" : 
+					bgColor;
 	
-	const [dotColor, setDotColor] = useState<string>();
-	
-	const [shouldAppendIcon, setShouldAppendIcon] = useState<boolean>();
-	const [showIcon, setShowIcon] = useState<boolean>();
-	const [IconComponentObject, setIconComponentObject] = useState<icons.Icon>();
+	if(isDestructive || !bgColor || isUntitledColor(color)){
+		return getColorHEX(`${color}-${colorShadeMap[state]}`);
+	}
+	else if(isUntitledColorShades(bgColor)){
+		return getColorHEX(color);
+	}
+	else{
+		return color;
+	}
+};
 
-	const [focused, setFocused] = useState<boolean>();
-	const [hovered, setHovered] = useState<boolean>();
+const getIconConfig = (icon?: keyof typeof icons, iconPosition?: ButtonIconPosition, iconOnly?: boolean, fontSize?: number, size?: ButtonSizes) : {iconComponent: icons.Icon, shouldAppendIcon: boolean, showIcon: boolean, fontSize: number,} => {
+	// Icon component
+	const IconComponent = icon ? icons[icon as keyof typeof icons] : icons["Circle"];
 
-	const buttonRef = useRef<HTMLButtonElement|null>(null);
-	
-// HOOKS ---------------------------------------------------------------------------------------------
-	useEffect(() => {
-		resetButtonProperties();
-	}, [props])
+	// Icon position
+	let shouldAppendIcon = false;
+	if(icon && !iconPosition){
+		shouldAppendIcon = true;
+	}else if(iconPosition && iconPosition === "prepend"){
+		shouldAppendIcon = false;
+	}else if(iconPosition && iconPosition === "append"){
+		shouldAppendIcon = true;
+	}else if(iconOnly){
+		shouldAppendIcon = true;
+	}
 
-	
-	useEffect(() => {
-		if(buttonRef.current){
-			if(props.variant && !["primary", "secondary", "secondary-gray"].includes(props.variant)){
-				return;
-			}
-			
-			const PRIMARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
-			const SECONDARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
-			const SECONDARY_GRAY_SHADOW = `0px 1px 2px 0px #0A0D120D, 0px 0px 0px 4px ${secondaryBgColor}`;
+	// Show icon?
+	const showIcon = (icon || iconPosition || iconOnly) ? true : false;
 
-			// console.log(secondaryBgColor)
-			
-			const shadow = (!props.variant || props.variant === "primary") ? PRIMARY_SHADOW 
-							: props.variant === "secondary" ? SECONDARY_SHADOW 
-							: props.variant === "secondary-gray" ? SECONDARY_GRAY_SHADOW
-							: "none";
-			
-			buttonRef.current.style.boxShadow = focused ? shadow : "none";
+	// Icon size
+	let textSize = 0;
+	if(fontSize){
+		textSize = fontSize;
+	}else{
+		if(!size || size === "sm" || size === "md"){
+			textSize = 14
+		}else if(size === "lg" || size === "xl"){
+			textSize = 16;
+		}else{
+			textSize = 18;
 		}
-	}, [focused])
+	}
+
+	return {
+		iconComponent: IconComponent,
+		shouldAppendIcon: shouldAppendIcon,
+		showIcon: showIcon,
+		fontSize: textSize
+	}
+}
+
+const getDotColor = (textColor: string, color?: UntitledColors | UntitledColorShades | string) : string => {
+	return !color ? textColor : getColorHEX(color);
+}
+
+const onHoverAction = (hoverStateSetter: (value: React.SetStateAction<boolean | undefined>) => void, action?: () => void) => {
+	hoverStateSetter(true);
+	action && action();
+}
+
+const onFocusAction = (focusStateSetter: (value: React.SetStateAction<boolean | undefined>) => void, action?: () => void) => {
+	focusStateSetter(true);
+	action && action();
+}
+
+const onUnfocusAction = (unfocusStateSetter: (value: React.SetStateAction<boolean | undefined>) => void, action?: () => void) => {
+	unfocusStateSetter(false);
+	action && action();
+}
+
+const getBaseStyles = (variant: ButtonVariant, isDestructive: boolean, bgColor: string, textColor: string, fontSize?: number) : CSSProperties => {
+	
+	if(variant === "secondary-gray"){
+		return {
+			fontSize: fontSize,
+			backgroundColor: bgColor,
+			color: textColor,
+			border: "solid",
+			borderWidth: 1,
+			borderColor: getColorHEX(isDestructive ? "error-300" :"gray-300") 
+		} as CSSProperties;
+	}
+	
+	return {
+		fontSize: fontSize,
+		backgroundColor: bgColor,
+		color: textColor,
+		border: "none"
+	} as CSSProperties;
+}
+
+const validateContext = (ctx?: UntitledButtonContextType) => {
+	if(!ctx){
+		throw new Error("Child button must be used within a UntitledButton component");
+	}
+
+	if(!ctx.props){
+		throw new Error("Child button must be used within a UntitledButton component");
+	}
+
+	const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = ctx;
+
+	return {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent};
+}
+
+
+// PARENT COMPONENT -------------------------------------------------------------------------------------
+const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
+	const [baseClasses, setBaseClasses] = useState<string>("");
+	const [textSize, setTextSize] = useState<number>(16); // Ou um valor padrão adequado
+	const [shouldAppendIcon, setShouldAppendIcon] = useState<boolean>(false);
+	const [showIcon, setShowIcon] = useState<boolean>(false);
+	const [IconComponentObject, setIconComponentObject] = useState<icons.Icon | null>(null);
+
+	const [ctxData, setCtxData] = useState<UntitledButtonContextType>({props});
 
 	useEffect(() => {
-		resetButtonProperties();
-	}, [hovered])
-
-// AUXILIARY -----------------------------------------------------------------------------------------
-	const resetButtonProperties = () => {
-		// Set base class name -----------------------------------------------------------------
-		setBaseClassNames();
-
-		// Set bg color - if none is provided, uses "brand-500"
-		const bgColorTemp = setBgColorConfig();
-
-		// Set TextColor ---------------------------------------------------------------------------------
-		let textColorTemp = setTextColorConfig(bgColorTemp);
-
-		// Set secondaryBgColor --------------------------------------------------------------------------
-		setSecondaryBgColorConfig(bgColorTemp);
-
-		// Icon component configuration ------------------------------------------------------------------
+		setBaseClasses(style["untitled-button"] + " " + style[`untitled-button-${props.size ?? "md"}`]);
 		setIconConfiguration();
 
-		// Set Dot Color ---------------------------------------------------------------------------------
-		setDotConfiguration(textColorTemp);
+		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined});
+	}, [props])
 
-
-		// TODO - set styles property --------------------------------------------------------------------
-		const baseStyles = {
-			fontSize: props.fontSize,
-			backgroundColor: bgColorTemp,
-			color: textColorTemp,
-			...setBorderColor(),
-		} as CSSProperties;
-		console.log({...props.styles ?? baseStyles})
-		setStyles({...props.styles ?? baseStyles})
+	useEffect(() => {
+		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined});
 	}
+	, [baseClasses, textSize, shouldAppendIcon, showIcon, IconComponentObject])
 
 	const setIconConfiguration = () => {
-		// Icon component
-		const IconComponent = props.icon ? icons[props.icon as keyof typeof icons] : icons["Circle"];
-		setIconComponentObject(IconComponent);
+		const {iconComponent, shouldAppendIcon, showIcon, fontSize} = getIconConfig(props.icon, props.iconPosition, props.iconOnly, props.fontSize, props.size);
 
-		// Icon position
-		if(props.icon && !props.iconPosition){
-			setShouldAppendIcon(true);
-		}else if(props.iconPosition && props.iconPosition === "prepend"){
-			setShouldAppendIcon(false);
-		}else if(props.iconPosition && props.iconPosition === "append"){
-			setShouldAppendIcon(true);
-		}else if(props.iconOnly){
-			setShouldAppendIcon(true);
-		}
+		setIconComponentObject(iconComponent);
 
-		// Show icon?
-		setShowIcon((props.icon || props.iconPosition || props.iconOnly) ? true : false);
+		setShouldAppendIcon(shouldAppendIcon);
 
-		// Icon size
-		if(props.fontSize){
-			setTextSize(props.fontSize);
-		}else{
-			if(!props.size || props.size === "sm" || props.size === "md"){
-				setTextSize(14)
-			}else if(props.size === "lg" || props.size === "xl"){
-				setTextSize(16);
-			}else{
-				setTextSize(18);
-			}
-		}
+		setShowIcon(showIcon);
+
+		setTextSize(fontSize);
 	}
 
-	// SETS BORDER COLOR FOR THE BUTTON
-	const setBorderColor = () : CSSProperties => {
-		if(props.variant === "secondary-gray"){
-			return {
-				border: "solid",
-				borderWidth: 1,
-				borderColor:getColorHEX(props.destructive ? "error-300" :"gray-300") 
+
+	return <ButtonContext.Provider value={ctxData}>
+		{ (!props.variant || props.variant === "primary") ? <PrimaryButton /> : null }
+		{ props.variant === "secondary" ? <SecondaryButton /> : null }
+		{ props.variant === "secondary-gray" ? <SecondaryGrayButton /> : null }
+		{ props.variant === "tertiary" ? <TertiaryButton /> : null }
+		{ props.variant === "tertiary-gray" ? <TertiaryGrayButton /> : null }
+		{ props.variant === "link" || props.variant === "link-gray" ? <LinkButton /> : null }
+	</ButtonContext.Provider>
+};
+
+// CHILD COMPONENT - PRIMARY VARIANT -------------------------------------------------------------------------------------
+const PrimaryButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	console.log("PrimaryButton", ctx)
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [secondaryBgColor, setSecondaryBgColor] = useState<string>();
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const BG_COLOR_SHADE = {
+			"disabled": 200,
+			"hovered": 600,
+			"default": 600
+		}
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+
+		useEffect(() => {
+			if(buttonRef.current){
+				const PRIMARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
+				buttonRef.current.style.boxShadow = focused ? PRIMARY_SHADOW : "none";
 			}
-		}else {
-			return {
-				border: "none"
-			}
-		}
-	}
+		}, [focused])
 
-	const setDotConfiguration = (textColorTemp: string) => {
-		if(!props.dotColor){
-			setDotColor(textColorTemp)
-		}else{
-			setDotColor(getColorHEX(props.dotColor));
-		}
-	}
+		useEffect(() => resetButtonProperties(), [hovered]);
 
-	// SETS THE SECONDARY BACKGOUND COLOR FOR THE BUTTON (USED ON ACTIVE AND FOCUSED STATES)
-	const setSecondaryBgColorConfig = (bgColorTemp: string) => {
-		if(bgColorTemp === "transparent"){
-			bgColorTemp = "#FFFFFF";
-		}
-		let secondary = "";
-		// console.log("bgColorTemp", bgColorTemp)
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const bgColorTemp = setBgColorConfig();
 
-		if(!props.secondaryBgColor){
-			// infer color by background color
-			if(props.destructive){
-				if(!props.variant || props.variant === "primary"){
-					secondary = getColorHEX("error-200");
-				}
-				else if(props.variant === "secondary"){
-					secondary = getColorHEX("error-100");
-				}
-				else if(props.variant === "secondary-gray"){
-					secondary = getColorHEX("error-200");
-				}
-				else if(props.variant === "tertiary" || props.variant === "tertiary-gray"){
-					secondary = getColorHEX("error-50");
-				}
-			}
-			else if(isUntitledColor(props.bgColor) || isUntitledColorShades(props.bgColor)){
-				// console.log("is untitled")
-				secondary = getSubToneColor(props.bgColor);
-			}else{
-				// console.log("is not untitled")
-				secondary = getSubToneColorByHEX(bgColorTemp);
-			}
-		}else{
-			secondary = getColorHEX(props.secondaryBgColor);
-		}
-		// console.log("secondary", secondary)
-		setSecondaryBgColor(secondary);
-	}
+			const textColorTemp = setTextColorConfig();
+			setTextColor(textColorTemp);
 
-	const setTextColorBasedOnVariant = () : string => {
-		if(!props.variant || props.variant === "primary"){
-			return "#FFFFFF";
+			setSecondaryBgColorConfig(bgColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles("primary", props.destructive??false, bgColorTemp, textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
 		}
 
-		if (props.destructive){
-			return props.disabled ? getColorHEX("error-300") : getColorHEX("error-700");
-		}
-
-		const colorStateByVariantMap: {[key: string]: { [state: string]: string }} = {
-			"link-gray": {
-				"disabled": getColorHEX("gray-300"),
-				"hovered": getColorHEX("gray-700"),
-				"default": getColorHEX("gray-600")
-			},
-			"link": {
-				"disabled": getColorHEX("gray-300"),
-				"hovered": getColorHEX("brand-800"),
-				"default": getColorHEX("brand-700")
-			},
-			"tertiary-gray": {
-				"disabled": getColorHEX("gray-300"),
-				"hovered": getColorHEX("gray-700"),
-				"default": getColorHEX("brand-600")
-			},
-			"tertiary": {
-				"disabled": getColorHEX("gray-300"),
-				"hovered": getColorHEX("brand-700"),
-				"default": getColorHEX("brand-700")
-			},
-			"secondary-gray": {
-				"disabled": getColorHEX("gray-300"),
-				"hovered": getColorHEX("gray-800"),
-				"default": getColorHEX("brand-700")
-			},
-			"secondary": {
-				"disabled": getColorHEX("brand-300"),
-				"hovered": getColorHEX("brand-700"),
-				"default": getColorHEX("brand-700")
-			},
-		}
-		const state:string = props.disabled ? "disabled" : hovered ? "hovered" : "default";
-		return colorStateByVariantMap[props.variant][state] ?? getColorHEX("gray-600");
-	}
-
-	// SETS THE TEXT COLOR BASED ON props.color or infers by the background color
-	const setTextColorConfig = (bgColorTemp: string) : string => {
-		if(bgColorTemp === "transparent"){
-			bgColorTemp = "#FFFFFF";
-		}
-		let textColorTemp = "";
-		if(!props.color){
-			// infer color by background color
-			if(isUntitledColor(props.bgColor) || isUntitledColorShades(props.bgColor)){
-				console.log("is untitled")
-				textColorTemp = getContrastColor(props.bgColor);
-			}else{
-				if(props.bgColor){
-					textColorTemp = getContrastColorByHEX(bgColorTemp);
-				}else{
-					textColorTemp = setTextColorBasedOnVariant();				
-				}
-			}
-		}else{
-			textColorTemp = getColorHEX(props.color);
-		}
-		setTextColor(textColorTemp);
-
-		return textColorTemp;
-	}
-
-	const setBgColorBasedOnVariant = () => {
-		const map : {[key: string]: { [state: string]: string }} = {
-			"link-gray": {
-				"disabled": "transparent",
-				"hovered": "transparent",
-				"default": "transparent"
-			},
-			"link": {
-				"disabled": "transparent",
-				"hovered": "transparent",
-				"default": "transparent"
-			},
-			"tertiary-gray": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("gray-50"),
-				"default": "transparent"
-			},
-			"tertiary": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("brand-50"),
-				"default": "transparent"
-			},
-			"secondary-gray": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("gray-50"),
-				"default": "transparent"
-			},
-			"secondary": {
-				"disabled": getColorHEX("gray-25"),
-				"hovered": getColorHEX("brand-100"),
-				"default": getColorHEX("brand-50"),
-			},
-			"primary": {
-				"disabled": getColorHEX("brand-200"),
-				"hovered": getColorHEX("brand-600"),
-				"default": getColorHEX("brand-600")
-			}
-		}
-
-		const mapDestructive : {[key: string]: { [state: string]: string }} = {
-			"link-gray": {
-				"disabled": "transparent",
-				"hovered":  "transparent",
-				"default": "transparent"
-			},
-			"link": {
-				"disabled": "transparent",
-				"hovered":  "transparent",
-				"default": "transparent"
-			},
-			"tertiary-gray": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("error-50"),
-				"default": "transparent"
-			},
-			"tertiary": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("error-50"),
-				"default": "transparent"
-			},
-			"secondary-gray": {
-				"disabled": "transparent",
-				"hovered": getColorHEX("error-50"),
-				"default": "transparent"
-			},
-			"secondary": {
-				"disabled": getColorHEX("error-25"),
-				"hovered": getColorHEX("error-100"),
-				"default": getColorHEX("error-50")
-			},
-			"primary": {
-				"disabled": getColorHEX("error-200"),
-				"hovered": getColorHEX("error-700"),
-				"default": getColorHEX("error-600")
-			}
-		}
-
-		if(props.destructive){
-			return mapDestructive[props.variant ?? "primary"][props.disabled ? "disabled" : hovered ? "hovered" : "default"];
-		}else{
-			return map[props.variant ?? "primary"][props.disabled ? "disabled" : hovered ? "hovered" : "default"];
-		}
-	}
-
-	// SETS THE BACKGROUND COLOR - BASED ON: props.bgColor, props.variant, props.destructive
-	const setBgColorConfig = () : string => {
-		let bgColorTemp = "";
-
-		if(!props.bgColor || props.destructive){
-			bgColorTemp = setBgColorBasedOnVariant();
-		}else{
-			bgColorTemp = getColorHEX(props.bgColor);
-		}
-		return bgColorTemp;
-	}
-
-	const setBaseClassNames = () => {
-		let classes = style["untitled-button"] + " ";
+		const setBgColorConfig = () : string => {
+			const state = props.disabled ? "disabled" : hovered ? "hovered" : "default";
+			return getBgColorConfig(state, props.destructive??false, BG_COLOR_SHADE, props.bgColor);
+		};
 		
-		let sizeClassName = "untitled-button-";
-		sizeClassName += props.size ?? "md";
-		classes += style[sizeClassName];
+		const setTextColorConfig = () : string => {
+			return !props.color ? "#FFFFFF" : getColorHEX(props.color);
+		}
 
-		setBaseClasses(classes);
-	}
+		const setSecondaryBgColorConfig = (bgColorTemp: string) => {
+			let secondary = "";
+			if(!props.secondaryBgColor){
+				secondary = props.destructive ? getColorHEX("error-200")
+							: (isUntitledColor(props.bgColor) || isUntitledColorShades(props.bgColor)) ? getSubToneColor(props.bgColor)
+							: getSubToneColorByHEX(bgColorTemp);
+			}
+			else{
+				secondary = getColorHEX(props.secondaryBgColor);
+			}
 
-	// DECIDES IF CAN SHOW OR NOT THE CONTAINER AROUND THE BUTTON (SECONDARY COLORED BACKGROUND)
-	const canShowShadowContainer = () => {
-		const v = props.variant;
-		return v === "primary" || v === "secondary" || v === "secondary-gray" || v === "tertiary" || v === "tertiary-gray";
-	}
+			setSecondaryBgColor(secondary);
+		}
 
-// EVENTS --------------------------------------------------------------------------------------------
-	const onFocusAction = (action?: () => void) => {
-		setFocused(canShowShadowContainer);
-		action && action();
-	}
+		return <button ref={buttonRef} id={props.id} name={props.name} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
+				role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
 
-	const onUnfocusAction = (action?: () => void) => {
-		setFocused(false);
-		action && action();
-	}
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
 
-	const onHoverAction = (action?: () => void) => {
-		setHovered(true);
-		action && action();
-	}
+				onKeyDown={() => onFocusAction(setFocused, props.onKeyDown)} 
+				onKeyUp={() => onUnfocusAction(setFocused)}
 
-
-
-
-  	return <button ref={buttonRef}
-		 id={props.id} className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant ?? "primary"}
-			 name={props.name} type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
-			 role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} disabled={props.disabled ?? false}
-			 style={styles}
-
-			 onMouseEnter={() => onHoverAction(props.onHover)} 
-			 onMouseLeave={() => setHovered(false)}
-
-			 onKeyDown={() => onFocusAction(props.onKeyDown)} 
-			 onKeyUp={() => onUnfocusAction()}
-
-			 onMouseDown={() => onFocusAction(props.onMouseDown)}
-			 onMouseUp={() => onUnfocusAction(props.onMouseUp)} 
+				onMouseDown={() => onFocusAction(setFocused, props.onMouseDown)}
+				onMouseUp={() => onUnfocusAction(setFocused, props.onMouseUp)} 
 		>
 			{!showIcon && props.dot ? 
 				<span style={{color: dotColor, fontSize: textSize}}>
@@ -409,14 +277,650 @@ const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
 				</span> 
 			: ""}
 			
-			{(showIcon && !shouldAppendIcon && IconComponentObject) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
 
 			{props.iconOnly ? null : props.text}
 			
-			{(showIcon && shouldAppendIcon && IconComponentObject) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
 		</button>
-	;
-};
+	}catch(ex){
+		throw ex;
+	}
+}
+
+// CHILD COMPONENT - SECONDARY VARIANT -------------------------------------------------------------------------------------
+const SecondaryButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [secondaryBgColor, setSecondaryBgColor] = useState<string>();
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const BG_COLOR_SHADE = {
+			"disabled": 25,
+			"hovered": 100,
+			"default": 50
+		}
+		const TEXT_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 300,
+			"hovered": 700,
+			"default": 700
+		}
+		
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+
+		useEffect(() => {
+			if(buttonRef.current){
+				const SECONDARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
+				buttonRef.current.style.boxShadow = focused ? SECONDARY_SHADOW : "none";
+			}
+			resetButtonProperties()
+		}, [focused])
+
+		useEffect(() => resetButtonProperties(), [hovered]);
+
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const bgColorTemp = setBgColorConfig();
+
+			const textColorTemp = setTextColorConfig(bgColorTemp);
+			setTextColor(textColorTemp);
+
+			setSecondaryBgColorConfig(bgColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles("secondary", props.destructive??false, bgColorTemp, textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
+		}
+
+		const setBgColorConfig = () : string => {
+			const state = props.disabled ? "disabled" : focused ? "default" : hovered ? "hovered" : "default";
+			return getBgColorConfig(state, props.destructive??false, BG_COLOR_SHADE, props.bgColor);
+		};
+		
+		const setTextColorConfig = (bgColorTemp: string) : string => {
+			const state:string = props.disabled ? "disabled" : hovered ? "hovered" : "default";
+			if(props.destructive){
+				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
+			}
+
+			if(!props.color){
+				const isUntitled = isUntitledColor(props.bgColor);
+				const isShade = isUntitledColorShades(props.bgColor);
+
+				if(isUntitled){
+					return getColorHEX(`${props.bgColor}-${TEXT_COLOR_SHADE[state]}`);
+				}
+				else if(isShade){
+					return getContrastColor(props.bgColor as UntitledColorShades);
+				}
+				else{
+					if(bgColorTemp){
+						return getContrastColorByHEX(bgColorTemp);
+					}else{
+						return getColorHEX(`brand-${TEXT_COLOR_SHADE[state]}`);
+					}
+				}
+			}else{
+				return getColorHEX(props.color);
+			}
+		}
+
+		const setSecondaryBgColorConfig = (bgColorTemp: string) => {
+			let secondary = "";
+			if(!props.secondaryBgColor){
+				if(props.destructive){
+					secondary = "error-100";
+				}else if(isUntitledColor(props.bgColor)){
+					secondary = getColorHEX(`${props.bgColor}-100`);
+				}else if(isUntitledColorShades(props.bgColor)){
+					secondary = getSubToneColor(props.bgColor);
+				}else{
+					secondary = getSubToneColorByHEX(bgColorTemp);
+				}
+			}
+			else{
+				secondary = getColorHEX(props.secondaryBgColor);
+			}
+
+			setSecondaryBgColor(secondary);
+		}
+
+		return <button ref={buttonRef} id={props.id} name={props.name} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
+				role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
+
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
+
+				onKeyDown={() => onFocusAction(setFocused, props.onKeyDown)} 
+				onKeyUp={() => onUnfocusAction(setFocused)}
+
+				onMouseDown={() => onFocusAction(setFocused, props.onMouseDown)}
+				onMouseUp={() => onUnfocusAction(setFocused, props.onMouseUp)} 
+		>
+			{!showIcon && props.dot ? 
+				<span style={{color: dotColor, fontSize: textSize}}>
+					●
+				</span> 
+			: ""}
+			
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+
+			{props.iconOnly ? null : props.text}
+			
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+		</button>
+	}catch(ex){
+		throw ex;
+	}
+}
+
+// CHILD COMPONENT - SECONDARY GRAY VARIANT -------------------------------------------------------------------------------------
+const SecondaryGrayButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [secondaryBgColor, setSecondaryBgColor] = useState<string>();
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const BG_COLOR_SHADE = {
+			"disabled": 0,
+			"hovered": 50,
+			"default": 0
+		}
+		const TEXT_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 300,
+			"hovered": 800,
+			"default": 700
+		}
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+
+		useEffect(() => {
+			if(buttonRef.current){
+				const SECONDARY_GRAY_SHADOW = `0px 1px 2px 0px #0A0D120D, 0px 0px 0px 4px ${secondaryBgColor}`;
+				buttonRef.current.style.boxShadow = focused ? SECONDARY_GRAY_SHADOW : "none";
+			}
+		}, [focused])
+
+		useEffect(() => resetButtonProperties(), [hovered]);
+
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const bgColorTemp = setBgColorConfig();
+
+			const textColorTemp = setTextColorConfig();
+			setTextColor(textColorTemp);
+
+			setSecondaryBgColorConfig(bgColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles("secondary-gray", props.destructive??false, bgColorTemp, textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
+		}
+
+		const setBgColorConfig = () : string => {
+			if(props.disabled){
+				return "transparent";
+			}else if(hovered){
+				const shade = BG_COLOR_SHADE["hovered"];
+				const colorName = props.destructive ? "error" : "gray";
+				return getColorHEX(colorName+"-"+shade);
+			}else{
+				return "transparent";
+			}
+		};
+
+		const setTextColorConfig = () : string => {
+			const state:string = props.disabled ? "disabled" : hovered ? "hovered" : "default";
+			if(props.destructive){
+				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
+			}
+
+			if(!props.color){
+				return getColorHEX(`gray-${TEXT_COLOR_SHADE[state]}`);
+			}else{
+				return getColorHEX(props.color);
+			}
+		}
+
+		const setSecondaryBgColorConfig = (bgColorTemp: string) => {
+			let secondary = "";
+			if(bgColorTemp === "transparent"){
+				bgColorTemp = "#FFFFFF";
+			}
+
+			if(props.destructive){
+				secondary = getColorHEX("error-200");
+			}
+			else if(!props.secondaryBgColor){
+				secondary = getColorHEX(`gray-100`);
+			}else{
+				if(isUntitledColor(props.secondaryBgColor)){
+					secondary = getColorHEX(`${props.secondaryBgColor}-100`);
+				}
+				else if(isUntitledColorShades(props.secondaryBgColor)){
+					secondary = getSubToneColor(props.secondaryBgColor);
+				}
+				else{
+					secondary = getColorHEX(props.secondaryBgColor);
+				}
+			}
+
+			setSecondaryBgColor(secondary);
+		}
+
+		return <button ref={buttonRef} id={props.id} name={props.name} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
+				role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
+
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
+
+				onKeyDown={() => onFocusAction(setFocused, props.onKeyDown)} 
+				onKeyUp={() => onUnfocusAction(setFocused)}
+
+				onMouseDown={() => onFocusAction(setFocused, props.onMouseDown)}
+				onMouseUp={() => onUnfocusAction(setFocused, props.onMouseUp)}
+
+		>
+			{!showIcon && props.dot ? 
+				<span style={{color: dotColor, fontSize: textSize}}>
+					●
+				</span> 
+			: ""}
+			
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+
+			{props.iconOnly ? null : props.text}
+			
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+		</button>
+	}catch(ex){
+		throw ex;
+	}
+}
+
+// CHILD COMPONENT - TERTIARY VARIANT -------------------------------------------------------------------------------------
+const TertiaryButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const BG_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 0,
+			"hovered": 50,
+			"default": 0
+		}
+		const TEXT_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 300,
+			"hovered": 700,
+			"default": 700
+		}
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+		useEffect(() => resetButtonProperties(), [hovered, focused]);
+
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const bgColorTemp = setBgColorConfig();
+
+			const textColorTemp = setTextColorConfig();
+			setTextColor(textColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles("tertiary", props.destructive??false, bgColorTemp, textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
+		}
+
+		const setBgColorConfig = () : string => {
+			if(hovered && !focused){
+				console.log("bgColor", props.bgColor)
+				if(props.destructive){
+					return getColorHEX(`error-${BG_COLOR_SHADE["hovered"]}`);
+				}
+
+				if(!props.bgColor){
+					return getColorHEX(`brand-${BG_COLOR_SHADE["hovered"]}`);
+				}
+				else if(isUntitledColor(props.bgColor)){
+					return getColorHEX(`${props.bgColor}-${BG_COLOR_SHADE["hovered"]}`);
+				}
+				else{
+					return getColorHEX(props.bgColor);
+				}
+			}else{
+				return "transparent";
+			}
+		};
+
+		const setTextColorConfig = () : string => {
+			const state:string = props.disabled ? "disabled" : hovered ? "hovered" : "default";
+			console.log("state", state)
+			if(props.destructive){
+				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
+			}
+
+			if(!props.color){
+				if(isUntitledColor(props.bgColor)){
+					return getColorHEX(`${props.bgColor}-${TEXT_COLOR_SHADE[state]}`);
+				}
+				else if(isUntitledColorShades(props.bgColor)){
+					return getContrastColor(props.bgColor as UntitledColorShades);
+				}
+				else{
+					if(hovered){
+						return props.bgColor ? getContrastColorByHEX(props.bgColor) : getColorHEX(`brand-${TEXT_COLOR_SHADE[state]}`);
+					}else{
+						return getColorHEX(props.bgColor);
+					}
+				}
+			}else{
+				return getColorHEX(props.color);
+			}
+		}
+
+
+		return <button ref={buttonRef} id={props.id} name={props.name} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
+				role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
+
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
+
+				onKeyDown={props.onKeyDown} 
+
+				onMouseDown={() => onFocusAction(setFocused, props.onMouseDown)}
+				onMouseUp={() => onUnfocusAction(setFocused, props.onMouseUp)} 
+		>
+			{!showIcon && props.dot ? 
+				<span style={{color: dotColor, fontSize: textSize}}>
+					●
+				</span> 
+			: ""}
+			
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+
+			{props.iconOnly ? null : props.text}
+			
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+		</button>
+	}catch(ex){
+		throw ex;
+	}
+}
+
+// // CHILD COMPONENT - TERTIARY GRAY VARIANT -------------------------------------------------------------------------------------
+const TertiaryGrayButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const BG_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 0,
+			"hovered": 50,
+			"default": 0
+		}
+		const TEXT_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 300,
+			"hovered": 700,
+			"default": 600
+		}
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+		useEffect(() => resetButtonProperties(), [hovered, focused]);
+
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const bgColorTemp = setBgColorConfig();
+
+			const textColorTemp = setTextColorConfig();
+			setTextColor(textColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles("tertiary-gray", props.destructive??false, bgColorTemp, textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
+		}
+
+		const setBgColorConfig = () : string => {
+			if(hovered && !focused){
+				console.log("bgColor", props.bgColor)
+				if(props.destructive){
+					return getColorHEX(`error-${BG_COLOR_SHADE["hovered"]}`);
+				}
+				return getColorHEX(`gray-${BG_COLOR_SHADE["hovered"]}`);
+			}else{
+				return "transparent";
+			}
+		};
+
+		const setTextColorConfig = () : string => {
+			const state:string = props.disabled ? "disabled" : focused ? "default" : hovered ? "hovered" : "default";
+			if(props.destructive){
+				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
+			}
+
+			return getColorHEX(`gray-${TEXT_COLOR_SHADE[state]}`);
+		}
+
+
+		return <button ref={buttonRef} id={props.id} name={props.name} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={props.type ?? "button"} value={props.value} formMethod={props.formMethod}
+				role={props.role ?? "button"} aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
+
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
+
+				onKeyDown={props.onKeyDown} 
+
+				onMouseDown={() => onFocusAction(setFocused, props.onMouseDown)}
+				onMouseUp={() => onUnfocusAction(setFocused, props.onMouseUp)} 
+		>
+			{!showIcon && props.dot ? 
+				<span style={{color: dotColor, fontSize: textSize}}>
+					●
+				</span> 
+			: ""}
+			
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+
+			{props.iconOnly ? null : props.text}
+			
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+		</button>
+	}catch(ex){
+		throw ex;
+	}
+}
+
+// // CHILD COMPONENT - LINK VARIANT -------------------------------------------------------------------------------------
+const LinkButton: React.FC = () => {
+	const ctx = useContext(ButtonContext);
+	
+	try{
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const IconComponentObject = iconComponent as icons.Icon;
+
+		// STATES ---------------------------------------------------------------------------------------------
+		const buttonRef = useRef<HTMLButtonElement|null>(null);
+
+		const [hovered, setHovered] = useState<boolean>();
+		
+		const [focused, setFocused] = useState<boolean>();
+
+		const [styles, setStyles] = useState<CSSProperties>();
+
+		const [dotColor, setDotColor] = useState<string>();
+
+		const [textColor, setTextColor] = useState<string>();
+
+		// CONSTANTS -----------------------------------------------------------------------------------------
+		const TEXT_COLOR_SHADE: {[key:string]: number} = {
+			"disabled": 300,
+			"hovered": 800,
+			"default": 700
+		}
+
+		// HOOKS ---------------------------------------------------------------------------------------------
+		useEffect(() => resetButtonProperties(), [props]);
+		useEffect(() => resetButtonProperties(), [hovered, focused]);
+
+		// AUXILIARY -----------------------------------------------------------------------------------------
+		const resetButtonProperties = () => {
+			const textColorTemp = setTextColorConfig();
+			setTextColor(textColorTemp);
+
+			setDotColor(getDotColor(textColorTemp, props.dotColor));
+
+			const baseStyles = getBaseStyles(props.variant!, props.destructive??false, "transparent", textColorTemp, props.fontSize);
+			setStyles({...props.styles ?? baseStyles});
+		}
+
+		const setTextColorConfig = () : string => {
+			const state:string = props.disabled ? "disabled" : focused ? "default" : hovered ? "hovered" : "default";
+			if(props.destructive){
+				return getColorHEX(`error-${TEXT_COLOR_SHADE[state]}`);
+			}
+
+			if(props.variant === "link"){
+				if(!props.color){
+					return getColorHEX(`brand-${TEXT_COLOR_SHADE[state]}`);
+				}else{
+					return getColorHEX(props.color);
+				}
+			}
+
+			return getColorHEX(`gray-${TEXT_COLOR_SHADE[state]}`);
+		}
+
+		const onFocused = (action?: () => void) => {
+			setFocused(true);
+			
+			if(props.url){
+				if(props.url.startsWith("http://") || props.url.startsWith("https://")){
+					window.open(props.url, "_blank");
+				}else{
+					window.open(`https://${props.url}`, "_blank");
+				}
+			}
+
+			action && action();
+		}
+
+		const onUnfocused = (action?: () => void) => {
+			setFocused(false);
+			action && action();
+		}
+
+
+		return <button ref={buttonRef} id={props.id} disabled={props.disabled ?? false}
+				className={(props.class ?? "") + " " + baseClasses} ui-variant={props.variant}
+				type={"button"} role="link" aria-pressed={props.ariaPressed ?? false} 
+				style={styles}
+
+				onMouseEnter={() => onHoverAction(setHovered, props.onHover)} 
+				onMouseLeave={() => setHovered(false)}
+
+				onKeyDown={props.onKeyDown}
+
+				onMouseDown={() => onFocused(props.onMouseDown)}
+				onMouseUp={() => onUnfocused(props.onMouseUp)} 
+		>
+			{!showIcon && props.dot ? 
+				<span style={{color: dotColor, fontSize: textSize}}>
+					●
+				</span> 
+			: ""}
+			
+			{(showIcon && !shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+
+			{props.iconOnly ? null : props.text}
+			
+			{(showIcon && shouldAppendIcon) ? <IconComponentObject size={textSize} color={textColor} /> : null}
+		</button>
+	}catch(ex){
+		throw ex;
+	}
+}
+
 
 export default UntitledButton;
 
