@@ -113,6 +113,12 @@ export default interface UntitledButtonProps extends ButtonBaseType{
      * Dot color
      */
     dotColor?: string | UntitledColors | UntitledColorShades;
+
+    /**
+     * URL to navigate to when the button is clicked.
+     * Only applicable if the button is of type `link` or `link-gray`.
+     */
+    url?: string;
 }
 export type ButtonSizes = "sm" | "md" | "lg" | "xl" | "2xl";
 
