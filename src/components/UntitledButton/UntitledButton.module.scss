@@ -10,6 +10,8 @@
     font-weight: 600;
     outline: none;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
 }
 .untitled-button:disabled{
     cursor: not-allowed;

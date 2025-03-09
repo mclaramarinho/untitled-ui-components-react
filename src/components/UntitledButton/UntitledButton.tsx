@@ -12,6 +12,7 @@ interface UntitledButtonContextType {
 	shouldAppendIcon?: boolean;
 	showIcon?: boolean;
 	iconComponent?: icons.Icon;
+	isCustomColor?: boolean;
 }
 
 const ButtonContext = createContext<UntitledButtonContextType|undefined>(undefined);
@@ -38,8 +39,16 @@ const getBgColorConfig = (state: "disabled" | "hovered" | "default",
 };
 
 const getIconConfig = (icon?: keyof typeof icons, iconPosition?: ButtonIconPosition, iconOnly?: boolean, fontSize?: number, size?: ButtonSizes) : {iconComponent: icons.Icon, shouldAppendIcon: boolean, showIcon: boolean, fontSize: number,} => {
+	let iconName = "Circle";
+	if(icon){
+		if(!icons[icon]){
+			throw new Error("Invalid icon name.");
+		}else{ 
+			iconName = icon;
+		}
+	}
 	// Icon component
-	const IconComponent = icon ? icons[icon as keyof typeof icons] : icons["Circle"];
+	const IconComponent = icons[iconName as keyof typeof icons];
 
 	// Icon position
 	let shouldAppendIcon = false;
@@ -129,7 +138,25 @@ const validateContext = (ctx?: UntitledButtonContextType) => {
 
 	const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = ctx;
 
-	return {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent};
+	return {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor: ctx.isCustomColor};
+}
+
+const getButtonShadow = (variant: ButtonVariant, focused: boolean, secondaryBgColor: string) : string => {
+	if(["primary", "secondary", "secondary-gray"].indexOf(variant) === -1){
+		return "none";
+	}
+	const map: {[key: string]: string} = {
+		"primary": `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`,
+		"secondary": `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`,
+		"secondary-gray": `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`,
+	}
+
+	const unfocusedMap: {[key: string]: string} = {
+		"primary": "0 1px 2px 0 #0A0D120D",
+		"secondary": "0 1px 2px 0 #0A0D120D",
+		"secondary-gray": "0 1px 2px 0 #0A0D120D",
+	}
+	return focused ? map[variant] : unfocusedMap[variant];
 }
 
 
@@ -143,17 +170,27 @@ const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
 
 	const [ctxData, setCtxData] = useState<UntitledButtonContextType>({props});
 
+	const [isCustomColor, setIsCustomColor] = useState<boolean>(false);
+
 	useEffect(() => {
 		setBaseClasses(style["untitled-button"] + " " + style[`untitled-button-${props.size ?? "md"}`]);
 		setIconConfiguration();
+		let customColor = false;
+		const isCustomTextColor = props.color && !isUntitledColor(props.color) && !isUntitledColorShades(props.color);
+		const isCustomBgColor = props.bgColor && !isUntitledColor(props.bgColor) && !isUntitledColorShades(props.bgColor);
+		const isCustomSecondaryBgColor = props.secondaryBgColor && !isUntitledColor(props.secondaryBgColor) && !isUntitledColorShades(props.secondaryBgColor);
+		if(isCustomTextColor || isCustomBgColor || isCustomSecondaryBgColor){
+			customColor = true;
+		}
+		setIsCustomColor(customColor);
 
-		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined});
+		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined, isCustomColor});
 	}, [props])
 
 	useEffect(() => {
-		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined});
+		setCtxData({props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent: IconComponentObject ?? undefined, isCustomColor});
 	}
-	, [baseClasses, textSize, shouldAppendIcon, showIcon, IconComponentObject])
+	, [baseClasses, textSize, shouldAppendIcon, showIcon, IconComponentObject, isCustomColor])
 
 	const setIconConfiguration = () => {
 		const {iconComponent, shouldAppendIcon, showIcon, fontSize} = getIconConfig(props.icon, props.iconPosition, props.iconOnly, props.fontSize, props.size);
@@ -182,7 +219,7 @@ const UntitledButton: React.FC<UntitledButtonProps> = (props) => {
 const PrimaryButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -206,19 +243,26 @@ const PrimaryButton: React.FC = () => {
 		}
 
 		// HOOKS ---------------------------------------------------------------------------------------------
-		useEffect(() => resetButtonProperties(), [props]);
+		useEffect(() => resetButtonProperties(), [props, hovered]);
 
 		useEffect(() => {
 			if(buttonRef.current){
-				const PRIMARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
-				buttonRef.current.style.boxShadow = focused ? PRIMARY_SHADOW : "none";
+				buttonRef.current.style.boxShadow = getButtonShadow(props.variant??"primary", focused??false, secondaryBgColor!);
 			}
+			resetButtonProperties();
 		}, [focused])
 
-		useEffect(() => resetButtonProperties(), [hovered]);
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
 
-		// AUXILIARY -----------------------------------------------------------------------------------------
+		useEffect(() => setFocused(props.ariaPressed ?? false), [props.ariaPressed]);
+
+ 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const bgColorTemp = setBgColorConfig();
 
 			const textColorTemp = setTextColorConfig();
@@ -292,7 +336,7 @@ const SecondaryButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -326,16 +370,24 @@ const SecondaryButton: React.FC = () => {
 
 		useEffect(() => {
 			if(buttonRef.current){
-				const SECONDARY_SHADOW = `0px 0px 0px 4px ${secondaryBgColor}, 0px 1px 2px 0px #0A0D120D`;
-				buttonRef.current.style.boxShadow = focused ? SECONDARY_SHADOW : "none";
+				buttonRef.current.style.boxShadow = getButtonShadow("secondary", focused??false, secondaryBgColor!);
 			}
 			resetButtonProperties()
 		}, [focused])
 
 		useEffect(() => resetButtonProperties(), [hovered]);
+		
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
+
+		useEffect(() => setFocused(true), [props.ariaPressed]);
 
 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const bgColorTemp = setBgColorConfig();
 
 			const textColorTemp = setTextColorConfig(bgColorTemp);
@@ -439,7 +491,7 @@ const SecondaryGrayButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -472,15 +524,24 @@ const SecondaryGrayButton: React.FC = () => {
 
 		useEffect(() => {
 			if(buttonRef.current){
-				const SECONDARY_GRAY_SHADOW = `0px 1px 2px 0px #0A0D120D, 0px 0px 0px 4px ${secondaryBgColor}`;
-				buttonRef.current.style.boxShadow = focused ? SECONDARY_GRAY_SHADOW : "none";
+				buttonRef.current.style.boxShadow = getButtonShadow("secondary-gray", focused??false, secondaryBgColor!);
 			}
+			resetButtonProperties();
 		}, [focused])
 
 		useEffect(() => resetButtonProperties(), [hovered]);
+		
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
+
+		useEffect(() => setFocused(true), [props.ariaPressed]);
 
 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const bgColorTemp = setBgColorConfig();
 
 			const textColorTemp = setTextColorConfig();
@@ -583,7 +644,7 @@ const TertiaryButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -612,11 +673,19 @@ const TertiaryButton: React.FC = () => {
 		}
 
 		// HOOKS ---------------------------------------------------------------------------------------------
-		useEffect(() => resetButtonProperties(), [props]);
-		useEffect(() => resetButtonProperties(), [hovered, focused]);
+		useEffect(() => resetButtonProperties(), [hovered, focused, props]);
+
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
+
+		useEffect(() => setFocused(true), [props.ariaPressed]);
 
 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const bgColorTemp = setBgColorConfig();
 
 			const textColorTemp = setTextColorConfig();
@@ -710,7 +779,7 @@ const TertiaryGrayButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -741,9 +810,18 @@ const TertiaryGrayButton: React.FC = () => {
 		// HOOKS ---------------------------------------------------------------------------------------------
 		useEffect(() => resetButtonProperties(), [props]);
 		useEffect(() => resetButtonProperties(), [hovered, focused]);
+		
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
+
+		useEffect(() => setFocused(true), [props.ariaPressed]);
 
 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const bgColorTemp = setBgColorConfig();
 
 			const textColorTemp = setTextColorConfig();
@@ -812,7 +890,7 @@ const LinkButton: React.FC = () => {
 	const ctx = useContext(ButtonContext);
 	
 	try{
-		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent} = validateContext(ctx);
+		const {props, baseClasses, textSize, shouldAppendIcon, showIcon, iconComponent, isCustomColor} = validateContext(ctx);
 		const IconComponentObject = iconComponent as icons.Icon;
 
 		// STATES ---------------------------------------------------------------------------------------------
@@ -839,8 +917,17 @@ const LinkButton: React.FC = () => {
 		useEffect(() => resetButtonProperties(), [props]);
 		useEffect(() => resetButtonProperties(), [hovered, focused]);
 
+		useEffect(() => {
+			if(!buttonRef.current) return;
+			if(!isCustomColor) return;
+			buttonRef.current.style.opacity = props.disabled ? "0.4" : "1";
+		}, [props.disabled]);
+
+		useEffect(() => setFocused(true), [props.ariaPressed]);
+
 		// AUXILIARY -----------------------------------------------------------------------------------------
 		const resetButtonProperties = () => {
+			setFocused(props.ariaPressed ?? false);
 			const textColorTemp = setTextColorConfig();
 			setTextColor(textColorTemp);
 
@@ -917,72 +1004,4 @@ const LinkButton: React.FC = () => {
 	}
 }
 
-
 export default UntitledButton;
-
-/*
-UntitledButton
-
-HTML SPECIFIC ------------------ OK
-
-formmethod: undefined / get / post / dialog 
-name: undefined / string
-type: submit / reset / button
-value: string / undefined
-aria-role: checkbox, combobox, link, menuitem, menuitemcheckbox, menuitemradio, option, radio, switch, tab / button (default) / undefined
-aria-pressed: true / false / undefined / mixed
-
-
-PROPS ------------------
-Sizes: sm / md (default) / lg / xl / 2xl 
-
-IconPosition: append (default) / prepend
-
-IconOnly: true / false (default)
-
-Icon: react feather icons
-- if icon is undefined and iconOnly is false OK
-	set to default circle icon
-
-  Dot: true / false (default)
-- if iconOnly or iconPosition is defined OK
-	dot is ignored
-
-- if iconOnly is true and icon is none OK
-	default circle icon is applied
-
-ClassName: string / undefined OK
-
-Destructive: true / false (default)
-- if destructive
-	all colors are default, unless css variables are customized or styles are passed to button
-
-Disabled: true / false (default) OK
-
-Variant: primary (default) / secondary / secondary-gray / tertiary / tertiary-gray / link / link-gray
-- if variant is (link or link-gray) and iconOnly is true
-	set variant to primary and show a warning
-
-Styles: CSSProperties / undefined OK
-
-BackgroundColor: undefined (default Brand) / pre-existing colors/HEX
-
-SecondaryColor (appears when focused): undefined (default Brand) / pre-existing colors / HEX
-- if secondaryColor is undefined and backgroundColor is defined (preexisting)
-	set to backgroundColor to correct shade
-
-Color (text color): undefined (default color) / pre-existing color / HEX
-
-CSS States: default / disabled / hover / focused / 
-
-OnClick: () => void / undefined OK
-
-OnHover: () => void / undefined OK
-
-OnKeyDown: () => void / undefined OK
-
-OnMouseUp: () => void / undefined OK
-
-OnMouseDown: () => void / undefined OK
-
-*/

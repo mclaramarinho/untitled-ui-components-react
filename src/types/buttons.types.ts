@@ -8,7 +8,7 @@ export interface ButtonBaseType extends ComponentBaseType{
     value?: string;
     disabled?: boolean;
     role?: "checkbox" | "combobox" | "link" | "menuitem" | "menuitemcheckbox" | "menuitemradio" | "option" | "radio" | "switch" | "tab";
-    ariaPressed?: boolean | "mixed";
+    ariaPressed?: boolean;
     onHover?: ()=>void;
     onKeyDown?: ()=>void;
     onMouseUp?: ()=>void;
